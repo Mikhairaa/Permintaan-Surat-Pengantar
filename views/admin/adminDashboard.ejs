@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1>Admin Dashboard</h1>
+        <div class="flex items-center">
+            <img src="/path/to/profile-pic.jpg" alt="Profile" class="w-8 h-8 rounded-full">
+            <span class="ml-2">Admin Name</span>
+        </div>
+    </header>
+    <div class="flex">
+        <aside class="w-64 bg-gray-800 text-white min-h-screen p-4">
+            <div class="flex items-center mb-6">
+                <img src="/path/to/profile-pic.jpg" alt="Profile" class="w-12 h-12 rounded-full">
+                <span class="ml-2">Admin Name</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/admin/dashboard" class="block py-2 px-4">Dashboard</a></li>
+                    <li class="relative">
+                        <a href="#" class="block py-2 px-4 flex justify-between items-center">
+                            Riwayat
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a>
+                        <ul class="hidden">
+                            <li><a href="#" class="block py-2 px-4">Semua</a></li>
+                            <li><a href="#" class="block py-2 px-4">Belum Disetujui</a></li>
+                            <li><a href="#" class="block py-2 px-4">Ditolak</a></li>
+                            <li><a href="#" class="block py-2 px-4">Dibatalkan</a></li>
+                            <li><a href="#" class="block py-2 px-4">Sedang Proses</a></li>
+                            <li><a href="#" class="block py-2 px-4">Selesai</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/admin/users" class="block py-2 px-4">User</a></li>
+                    <li><a href="/admin/feedback" class="block py-2 px-4">Feedback</a></li>
+                    <li><a href="/admin/profile" class="block py-2 px-4">Profil</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="flex-1 p-6">
+            <h2>Welcome, Admin!</h2>
+            <p>This is the admin dashboard.</p>
+        </main>
+    </div>
+    <footer class="bg-gray-800 text-white text-center p-4">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </footer>
+    <script src="/javascript/sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+</body>
+</html>
