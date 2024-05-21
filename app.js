@@ -1,41 +1,38 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const path = require('path');
+const authRoutes = require('./routes/authRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const mahasiswaRoutes = require('./routes/mahasiswaRoutes');
+const sequelize = require('./config/db');
+const cookieParser = require('cookie-parser');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+dotenv.config();
 
-var app = express();
+const app = express();
+const port = process.env.PORT || 3000;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// Sync Database
+sequelize.sync().then(() => {
+    console.log('Database synced');
+}).catch((err) => {
+    console.error('Unable to sync database:', err);
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// Set up EJS as template engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use(express.static(path.join(__dirname, 'views')));
+app.use('/auth', authRoutes);
+app.use('/', dashboardRoutes);
+app.use('/', mahasiswaRoutes);
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
-
-module.exports = app;
