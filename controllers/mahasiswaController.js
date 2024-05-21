@@ -1,13 +1,7 @@
-// controllers/mahasiswaController.js
-
 const User = require('../models/user');
 
-// controllers/mahasiswaController.js
-
 exports.dashboard = (req, res) => {
-  res.render('mahasiswa/Dashboard');
+  res.render('mahasiswa/mahasiswaDashboard');
 };
 
-exports.profile = (req, res) => {
-  res.render('mahasiswa/profile', { user: req.user });
-};
+

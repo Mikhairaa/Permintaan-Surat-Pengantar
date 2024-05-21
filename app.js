@@ -28,10 +28,10 @@ sequelize.sync().then(() => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Routes
+app.use(express.static(path.join(__dirname, 'views')));
 app.use('/auth', authRoutes);
-app.use('/mahasiswa', mahasiswaRoutes);
 app.use('/', dashboardRoutes);
+app.use('/', mahasiswaRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
