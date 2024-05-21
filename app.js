@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path');
 const authRoutes = require('./routes/authRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const mahasiswaRoutes = require('./routes/mahasiswaRoutes');
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
 
@@ -28,7 +30,9 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/auth', authRoutes);
+app.use('/', dashboardRoutes);
+app.use('/', mahasiswaRoutes);
 
 app.listen(port, () => {
-    console.log('Server running on port ${port}');
+    console.log(`Server running on port ${port}`);
 });

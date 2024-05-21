@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahasiswa Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <style>
+        .blue-container {
+            background-color: #3B82F6;
+        }
+        .white-text {
+            color: #FFFFFF;
+        }
+        .active-menu {
+            background-color: #4CAF50;
+        }
+        .logo {
+            width: 40px; /* Sesuaikan ukuran logo */
+            height: 40px; /* Sesuaikan ukuran logo */
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .sidebar-profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .logout-button {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ef4444;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-green-600 text-white p-3 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h1>Universitas Andalas</h1>
+        </div>
+        <a href="mahasiswa/profile" class="flex items-center">
+            <img src="profil.png" alt="Profil" class="profile-pic">
+            <span class="ml-2">Angel</span>
+        </a>
+    </header>
+    <div class="flex">
+        <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
+            <div class="flex items-center mb-6">
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic">
+                <span class="ml-2">Angel</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/mahasiswa/Dashboard" class="block py-2 px-4">Dashboard</a></li>
+                    <li><a href="/mahasiswa/verifikasi" class="block py-2 px-4">Verifikasi</a></li>
+                    <li><a href="/mahasiswa/status" class="block py-2 px-4">Status</a></li>
+                    <li><a href="/mahasiswa/riwayat" class="block py-2 px-4">Riwayat</a></li>
+                    <li><a href="/mahasiswa/feedback" class="block py-2 px-4">Feedback</a></li>
+                    <li><a href="profile" class="block py-2 px-4">Profil</a></li>
+                    <li class="bg-blue-500 text-white flex justify-center items-center py-2">
+                        <a href="/mahasiswa/request" class="block">+ Permintaan</a>
+                    </li>
+                </ul>
+            </nav>
+            <a href="/logout" class="logout-button">Logout</a>
+        </aside>
+        <main class="flex-1 p-6">
+            <h2>Welcome, Mahasiswa!</h2>
+            <p>This is the mahasiswa dashboard.</p>
+        </main>
+    </div>
+    <footer class="bg-gray-800 text-white text-center p-4">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+</body>
+</html>
