@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-// Route untuk halaman login
+/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('login');
+  res.render('index', { title: 'Express' });
 });
 
-module.exports=router;
+module.exports = router;
