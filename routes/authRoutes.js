@@ -11,6 +11,7 @@ router.get('/login', (req, res) => {
 router.post('/login', authController.login);
 router.post('/gantiPassword',verifyToken,ubahPasswordController.ubahPassword)
 router.get('/changePass',verifyToken,ubahPasswordController.formUbahPassword)
+router.post('/logout', authController.logout);
 module.exports = router;
 
 
