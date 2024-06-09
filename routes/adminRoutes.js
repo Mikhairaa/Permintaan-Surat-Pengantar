@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const verifyToken = require ('../middleware/verifyToken')
 
-router.get('/login', (req, res) => {
-  res.render('login', { error: '' });
+// Rute dashboard admin
+router.get('/admin/dashboard', verifyToken, (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).render('error', { message: 'Access denied' });
+  }
+  res.render('admin/adminDashboard');
 });
-
-router.post('/login', authController.login);
 
 module.exports = router;
