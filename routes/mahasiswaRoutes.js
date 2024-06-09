@@ -17,5 +17,4 @@ router.get('/mahasiswa/profile', authMiddleware.verifyToken, mahasiswaController
 router.get('/mahasiswa/verifikasi', authMiddleware.verifyToken,mahasiswaController.verifikasi);
 router.get('/mahasiswa/permintaan', authMiddleware.verifyToken,mahasiswaController.tampilkanFormulir);
 
-
 module.exports = router;
