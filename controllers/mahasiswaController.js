@@ -31,7 +31,6 @@ exports.verifikasi = (req, res) => {
 
 exports.tampilkanFormulir = async (req, res) => {
   try {
-
     res.render('mahasiswa/permintaan');
   } catch (error) {
     console.error(error);

@@ -9,7 +9,7 @@
         .input-container {
             position: relative;
             margin-bottom: 1rem;
-        }
+        } 
         .input-container input {
             padding-top: 1.25rem;
         }
@@ -17,6 +17,7 @@
             position: absolute;
             top: -1rem;
             left: 0.75rem;
+            bottom: 0.75rem;
             padding: 0 0.25rem;
             background-color: transparent;
             color: #6b7280; /* text-gray-500 */
@@ -33,23 +34,23 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
   <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
     <h2 class="text-center text-2xl font-bold mb-4">Login</h2>
-    <p class="text-center mb-6">Silakan masuk untuk melanjutkan</p>
+    <p class="text-center mb-6">Silakan login untuk melanjutkan</p>
 
     <% if (typeof error !== 'undefined' && error) { %>
       <div class="text-red-500 text-center mb-4"><%= error %></div>
     <% } %>
 
     <form id="loginForm" action="/auth/login" method="POST" class="space-y-6">
-      <div class="input-container">
-        <input type="email" id="email" name="email" class="peer p-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" placeholder=" " required>
+      <div class="input-container relative p-3">
+        <input type="email" id="email" name="email" class="peer p-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter email" required>
         <label for="email">Email</label>
       </div>
-      <div class="input-container">
-        <input type="password" id="password" name="password" class="peer p-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" placeholder=" " required>
+      <div class="input-container  relative p-3">
+        <input type="password" id="password" name="password" class="peer p-4 block w-full border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter password" required>
         <label for="password">Password</label>
       </div>
       <div class="flex justify-center">
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg w-30">Login</button>
+        <button type="submit" class=" text-white font-semibold py-2 px-4 rounded-lg w-40" style="background-color: #29ADB2;">Login</button>
       </div>
     </form>
   </div>

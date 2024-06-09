@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .blue-container {
+            background-color: #3B82F6;
+        }
+        .white-text {
+            color: #FFFFFF;
+        }
+        .active-menu {
+            background-color: #4CAF50;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .sidebar-profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .logout-button {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ef4444;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-green-700 text-white p-3 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h2>Universitas Andalas</h2>
+        </div>
+        <div>
+            <a href="/mahasiswa/profile" class="flex items-center">
+                <img src="profil.png" alt="Profil" class="profile-pic">
+                <span class="ml-2">Angeli Putri Rahmadhani</span>
+            </a>
+        </div>
+    </header>
+    <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
+        <div class="w-full p-2 flex items-center justify-center">
+            <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-bottom: 10px;">
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/mahasiswa/dashboard" class="block py-2 px-4">
+                        <i class="fa-solid fa-table-columns" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/mahasiswa/verifikasi" class="block py-2 px-4">
+                        <i class="fa-regular fa-circle-check" style="color: #FFFFFF; margin-right: 20px;"></i>Verifikasi
+                    </a>
+                </li>
+                <li>
+                    <a href="/mahasiswa/status" class="block py-2 px-4">
+                        <i class="fa-solid fa-spinner" style="color: #FFFFFF; margin-right: 20px;"></i>Status
+                    </a>
+                </li>
+                <li>
+                    <a href="/mahasiswa/riwayat" class="block py-2 px-4">
+                        <i class="fa-solid fa-clock-rotate-left" style="color: #FFFFFF; margin-right: 20px;"></i>Riwayat
+                    </a>
+                </li>
+                <li>
+                    <a href="/mahasiswa/feedback" class="block py-2 px-4">
+                        <i class="fa-regular fa-comments" style="color: #FFFFFF; margin-right: 20px;"></i>Feedback
+                    </a>
+                </li>
+                <li>
+                    <a href="/mahasiswa/notifikasi" class="block py-2 px-4">
+                        <i class="fa-regular fa-bell" style="color: #FFFFFF; margin-right: 20px;"></i>Notifikasi
+                    </a>
+                </li>
+                <li>
+                    <a href="/mahasiswa/profile" class="block py-2 px-4">
+                        <i class="fa-regular fa-user" style="color: #FFFFFF; margin-right: 20px;"></i>Profil
+                    </a>
+                </li>
+                <li class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg flex justify-center items-center">
+                    <a href="/mahasiswa/permintaan" class="block">+ Permintaan</a>
+                </li>
+            </ul>
+        </nav>
+        <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
+            <button type="submit" class="w-full text-center py-2">Logout</button>
+        </form>
+    </aside>
+</body>
+</html>
