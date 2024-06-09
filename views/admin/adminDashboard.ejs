@@ -6,6 +6,7 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .blue-container {
             background-color: #3B82F6;
@@ -85,20 +86,24 @@
     </header>
     <div class="flex">
         <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
-            <div class="flex items-center mb-6">
-                <img src="profil.png" alt="Profil" class="sidebar-profile-pic">
-                <span class="ml-2">Admin</span>
+            <div class="w-full p-2 flex items-center justify-center">
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-bottom: 10px;">
             </div>
             <nav>
                 <ul>
-                    <li><a href="/admin/dashboard" class="block py-2 px-4">Dashboard</a></li>
+                    <li>
+                        <a href="/admin/dashboard" class="block py-2 px-4">
+                            <i class="fa-solid fa-house" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
+                        </a>
+                    </li>   
                     <li class="relative">
-                        <a href="#" id="dropdown-toggle" class="block py-2 px-4 flex justify-between items-center cursor-pointer">
-                            Riwayat
-                            <svg id="dropdown-icon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <a href="#" id="dropdown-toggle" class="block py-2 px-4 flex items-center cursor-pointer">
+                            <i class="fas fa-history mr-6"></i> 
+                            <span>Riwayat</span>
+                            <svg id="dropdown-icon" class="w-4 h-4 transition-transform ml-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
-                        </a>
+                        </a>  
                         <ul id="dropdown-menu" class="hidden transition-max-height max-h-0 shadow-md rounded">
                             <li><a href="#" class="block py-2 px-4">Semua</a></li>
                             <li><a href="#" class="block py-2 px-4">Belum Disetujui</a></li>
@@ -108,11 +113,20 @@
                             <li><a href="#" class="block py-2 px-4">Selesai</a></li>
                         </ul>
                     </li>
-                    <li><a href="/admin/users" class="block py-2 px-4">User</a></li>
-                    <li><a href="/admin/feedback" class="block py-2 px-4">Feedback</a></li>
-                    <li><a href="/admin/profile" class="block py-2 px-4">Profil</a></li>
-                </ul>
-            </nav>
+                    
+                        <a href="/admin/user" class="block py-2 px-4">
+                            <i class="fa-solid fa-users" style="color: #FFFFFF;margin-right: 20px;"></i>User
+                        </a>
+                    </li>   
+                    <li>
+                        <a href="/admin/feedback" class="block py-2 px-5">
+                            <i class="fa-solid fa-comment" style="color: #FFFFFF;margin-right: 20px;"></i>Feedback
+                        </a>
+                    </li>  
+                    <li>
+                        <a href="/admin/profil" class="block py-2 px-5">
+                            <i class="fa-solid fa-user" style="color: #FFFFFF;margin-right: 20px;"></i>Profil
+                        </a>
             <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
                 <button type="submit" class="w-full text-center py-2">Logout</button>
             </form>
@@ -120,6 +134,31 @@
         <main class="flex-1 p-6">
             <h2>Welcome, Admin!</h2>
             <p>This is the admin dashboard.</p>
+
+            <!-- Dashboard Analitik -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <!-- Kotak-kotak analitik -->
+                <!-- Kotak pertama -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold">150</p> <!-- Angka di bagian atas -->
+                    <h3 class="text-lg font-semibold mt-2">Total Surat</h3> <!-- Deskripsi di bagian bawah -->
+                </div>
+                <!-- Kotak kedua -->
+                <div class="bg-gradient-to-r from-green-500 to-green-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold">120</p> <!-- Angka di bagian atas -->
+                    <h3 class="text-lg font-semibold mt-2">Surat Selesai</h3> <!-- Deskripsi di bagian bawah -->
+                </div>
+                <!-- Kotak ketiga -->
+                <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold">20</p> <!-- Angka di bagian atas -->
+                    <h3 class="text-lg font-semibold mt-2">Surat Dalam Proses</h3> <!-- Deskripsi di bagian bawah -->
+                </div>
+                <!-- Kotak keempat -->
+                <div class="bg-gradient-to-r from-purple-500 to-purple-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold">10</p> <!-- Angka di bagian atas -->
+                    <h3 class="text-lg font-semibold mt-2">Belum Selesai</h3> <!-- Deskripsi di bagian bawah -->
+                </div>
+            </div>
         </main>
     </div>
     <footer class="bg-gray-800 text-white text-center p-4">
@@ -147,3 +186,4 @@
     </script>
 </body>
 </html>
+
