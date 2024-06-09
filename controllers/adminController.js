@@ -5,5 +5,5 @@ const User = require('../models/user');
 // controllers/adminController.js
 
 exports.dashboard = (req, res) => {
-  res.render('admin/adminDashboard');
+  res.render('admin/dashboard');
 };

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Verifikasi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -42,6 +42,9 @@
             position: absolute;
             bottom: 0;
             left: 0;
+        }
+        .striped-rows tr:nth-child(odd) {
+            background-color: #f9fafb;
         }
     </style>
 </head>
@@ -110,31 +113,39 @@
                 <button type="submit" class="w-full text-center py-2">Logout</button>
             </form>
         </aside>
-    <main class="p-6">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4">Profile Information</h2>
-            <div class="space-y-4">
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Nama:</span>
-                <span class="info-value"><%= userNama %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Nomor Identitas:</span>
-                <span class="info-value"><%= userNo_Id %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Email:</span>
-                <span class="info-value"><%= userEmail %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Alamat:</span>
-                <span class="info-value"><%= userAlamat %></span>
-              </div>
-                <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                    <a href = '/auth/changePass'> Ubah Password</a>
-                </button>
+    <main class="flex-1 p-6">
+        <h5 class="font-bold text-2xl m-5">Verifikasi</h5>
+        <div class="container mx-auto">
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">No</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Kode Surat</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama Surat</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Diajukan</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="striped-rows">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">1</td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">001</td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">Surat Keterangan</td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">Departemen HRD</td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">Untuk keperluan administrasi</td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">2024-06-01</td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Batal</button>
+                                <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        
+        </div>
     </main>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>

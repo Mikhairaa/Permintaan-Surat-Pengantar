@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
@@ -26,9 +27,17 @@ fs
     );
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file));
-    const modelInstance = model.init(sequelize);
-    db[modelInstance.name] = modelInstance;
+    const modelPath = path.join(__dirname, file);
+    console.log(`Loading model from file: ${modelPath}`);
+
+    try {
+      const model = require(modelPath)(sequelize, Sequelize.DataTypes);
+      console.log(`Model initialized: ${model.name}`);
+      db[model.name] = model;
+    } catch (error) {
+      console.error(`Failed to initialize model from file: ${modelPath}`);
+      console.error(error);
+    }
   });
 
 Object.keys(db).forEach(modelName => {
@@ -37,6 +46,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+console.log('Models loaded:', Object.keys(db));
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
