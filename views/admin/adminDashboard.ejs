@@ -6,32 +6,100 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <style>
+        .blue-container {
+            background-color: #3B82F6;
+        }
+        .white-text {
+            color: #FFFFFF;
+        }
+        .active-menu {
+            background-color: #4CAF50;
+        }
+        .logo {
+            width: 40px; /* Sesuaikan ukuran logo */
+            height: 40px; /* Sesuaikan ukuran logo */
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .sidebar-profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .logout-button {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ef4444;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .transition-max-height {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        nav ul li a {
+            display: block;
+            padding: 12px 24px; /* Sesuaikan dengan kebutuhan Anda */
+            text-decoration: none;
+            color: #ffffff; /* Warna teks default */
+        }
+        /* Efek hover pada item menu */
+        nav ul li a:hover {
+            background-color: #4a5568; /* Warna latar belakang saat dihover, sedikit lebih gelap dari latar belakang awal */
+            color: #e2e8f0; /* Warna teks saat dihover, lebih cerah dari warna teks default */
+        }
+        /* Gaya untuk menu dropdown */
+        #dropdown-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        /* Efek hover pada item menu dropdown */
+        #dropdown-menu li a:hover {
+            background-color: #4a5568; /* Warna latar belakang saat dihover, sedikit lebih gelap dari latar belakang awal */
+            color: #e2e8f0; /* Warna teks saat dihover, lebih cerah dari warna teks default */
+        }
+        /* Rotasi panah dropdown saat aktif */
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <h1>Admin Dashboard</h1>
+    <header class="bg-blue-600 text-white p-3 flex justify-between items-center">
         <div class="flex items-center">
-            <img src="/path/to/profile-pic.jpg" alt="Profile" class="w-8 h-8 rounded-full">
-            <span class="ml-2">Admin Name</span>
+            <img src="logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h1>Universitas Andalas</h1>
         </div>
+        <a href="admin/profile" class="flex items-center">
+            <img src="profil.png" alt="Profil" class="profile-pic">
+            <span class="ml-2">Admin</span>
+        </a>
     </header>
     <div class="flex">
-        <aside class="w-64 bg-gray-800 text-white min-h-screen p-4">
+        <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
             <div class="flex items-center mb-6">
-                <img src="/path/to/profile-pic.jpg" alt="Profile" class="w-12 h-12 rounded-full">
-                <span class="ml-2">Admin Name</span>
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic">
+                <span class="ml-2">Admin</span>
             </div>
             <nav>
                 <ul>
                     <li><a href="/admin/dashboard" class="block py-2 px-4">Dashboard</a></li>
                     <li class="relative">
-                        <a href="#" class="block py-2 px-4 flex justify-between items-center">
+                        <a href="#" id="dropdown-toggle" class="block py-2 px-4 flex justify-between items-center cursor-pointer">
                             Riwayat
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg id="dropdown-icon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </a>
-                        <ul class="hidden">
+                        <ul id="dropdown-menu" class="hidden transition-max-height max-h-0 shadow-md rounded">
                             <li><a href="#" class="block py-2 px-4">Semua</a></li>
                             <li><a href="#" class="block py-2 px-4">Belum Disetujui</a></li>
                             <li><a href="#" class="block py-2 px-4">Ditolak</a></li>
@@ -45,6 +113,9 @@
                     <li><a href="/admin/profile" class="block py-2 px-4">Profil</a></li>
                 </ul>
             </nav>
+            <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
+                <button type="submit" class="w-full text-center py-2">Logout</button>
+            </form>
         </aside>
         <main class="flex-1 p-6">
             <h2>Welcome, Admin!</h2>
@@ -54,7 +125,25 @@
     <footer class="bg-gray-800 text-white text-center p-4">
         <p>&copy; 2023 Your Company. All rights reserved.</p>
     </footer>
-    <script src="/javascript/sidebar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownToggle = document.getElementById('dropdown-toggle');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            const dropdownIcon = document.getElementById('dropdown-icon');
+
+            dropdownToggle.addEventListener('click', function () {
+                if (dropdownMenu.classList.contains('hidden')) {
+                    dropdownMenu.classList.remove('hidden');
+                    dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                    dropdownIcon.classList.add('rotate-180');
+                } else {
+                    dropdownMenu.classList.add('hidden');
+                    dropdownMenu.style.maxHeight = '0';
+                    dropdownIcon.classList.remove('rotate-180');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
