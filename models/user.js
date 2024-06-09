@@ -1,44 +1,37 @@
-// models/user.js
+"use strict";
+const { Model } = require("sequelize");
 
-const { DataTypes, Model } = require('sequelize');
-
-class User extends Model {
-  static init(sequelize) {
-    return super.init({
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    static associate(models) {
+    }
+  }
+  User.init(
+    {
+      id: {
+        type : DataTypes.INTEGER,
+        autoIncrement : true,
+        primaryKey: true,
+        allowNull: false
+      },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
         unique: true,
+        allowNull: false
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      role: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      nama: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      no_id: {
-        type: DataTypes.STRING
-      },
-      alamat: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      }
-    }, {
+      password: DataTypes.STRING,
+      role: DataTypes.STRING,
+      nama: DataTypes.STRING,
+      foto_profil : DataTypes.STRING,
+      no_id: DataTypes.STRING,
+      alamat: DataTypes.STRING,
+    
+    },
+    {
       sequelize,
-      modelName: 'User',
-      timestamps: true,
-    });
-  }
-
-  static associate(models) {
-    // Define associations here if necessary
-  }
-}
-
-module.exports = User;
+      modelName: "User",
+    }
+  );
+  console.log('User model initialized');
+  return User;
+};

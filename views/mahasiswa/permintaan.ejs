@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permintaan Surat Pengantar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    
+    <style>
+        .blue-container {
+            background-color: #3B82F6;
+        }
+        .white-text {
+            color: #FFFFFF;
+        }
+        .active-menu {
+            background-color: #4CAF50;
+        }
+        .logo {
+            width: 40px; /* Sesuaikan ukuran logo */
+            height: 40px; /* Sesuaikan ukuran logo */
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .sidebar-profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .logout-button {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ef4444;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-green-700 text-white p-3 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h2>Universitas Andalas</h2>
+        </div>
+        <div>
+            <a href="mahasiswa/profile" class="flex items-center">
+                <img src="profil.png" alt="Profil" class="profile-pic">
+                <span class="ml-2">Angel</span> <!-- User nama displayed here -->
+            </a>
+        </div>
+    </header>
+    <div class="flex">
+        <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
+            <div class="w-full p-2 flex items-center justify-center">
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-bottom: 10px;">
+            </div>                                  
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/mahasiswa/Dashboard" class="block py-2 px-4">
+                            <i class="fa-solid fa-table-columns" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="/mahasiswa/verifikasi" class="block py-2 px-4">
+                            <i class="fa-regular fa-circle-check" style="color: #FFFFFF; margin-right: 20px;"></i>Verifikasi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/status" class="block py-2 px-4">
+                            <i class="fa-solid fa-spinner" style="color: #FFFFFF; margin-right: 20px;"></i>Status
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/riwayat" class="block py-2 px-4">
+                            <i class="fa-solid fa-clock-rotate-left" style="color: #FFFFFF; margin-right: 20px;"></i>Riwayat
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/feedback" class="block py-2 px-4">
+                            <i class="fa-regular fa-comments" style="color: #FFFFFF; margin-right: 20px;"></i>Feedback
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/notifikasi" class="block py-2 px-4">
+                            <i class="fa-regular fa-bell" style="color: #FFFFFF; margin-right: 20px;"></i>Notifikasi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile" class="block py-2 px-4">
+                            <i class="fa-regular fa-user" style="color: #FFFFFF; margin-right: 20px;"></i>Profil
+                        </a>
+                    </li>
+                    <li class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font- semibold py-2 px-4 rounded-lg flex justify-center items-center ">
+                        <a href="permintaan" class="block">+ Permintaan</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
+                <button type="submit" class="w-full text-center py-2">Logout</button>
+            </form>
+        </aside>
+        <main class="flex-1 p-6">
+            <h5 class="font-bold text-2xl">Permintaan</h5>
+            <form id="permintaanForm" class="mt-6 space-y-4" onsubmit="return validateForm()">
+                <!-- Input for Nama -->
+                <div>
+                    <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                    <input type="text" id="nama" name="nama" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <p id="error-nama" class="error-message hidden">Nama tidak boleh kosong</p>
+                </div>
+                <!-- Input for NIM -->
+                <div>
+                    <label for="nim" class="block text-sm font-medium text-gray-700">NIM</label>
+                    <input type="text" id="nim" name="nim" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <p id="error-nim" class="error-message hidden">NIM tidak boleh kosong</p>
+                </div>
+                <!-- Input for Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <p id="error-email" class="error-message hidden">Email tidak boleh kosong</p>
+                </div>
+                <!-- Input for Nama Surat with Dropdown -->
+                <div>
+                    <label for="nama-surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
+                    <div class="relative">
+                        <input type="text" id="nama-surat" name="nama-surat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <button type="button" class="absolute inset-y-0 right-0 px-4 text-gray-600 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="toggleDropdown()">&#x25BC;</button>
+                    </div>
+                    <div id="dropdown" class="hidden mt-2 w-full bg-white border border-gray">
+                        <ul class="py-1">
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S001 - Surat Pengantar Observasi dan Wawancara')">S001 - Surat Pengantar Observasi dan Wawancara</button></li>
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S002 - Surat Permintaan Data Penelitian')">S002 - Surat Permintaan Data Penelitian</button></li>
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S003 - Surat Rekomendasi Beasiswa')">S003 - Surat Rekomendasi Beasiswa</button></li>
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S004 - Surat Peminjaman Alat')">S004 - Surat Peminjaman Alat</button></li>
+                        </ul>
+                    </div>
+                <p id="error-nama-surat" class="error-message hidden">Nama Surat tidak boleh kosong</p>
+            </div>
+            <!-- Input for Kode Surat -->
+            <div>
+                <label for="kode-surat" class="block text-sm font-medium text-gray-700">Kode Surat</label>
+                <input type="text" id="kode-surat" name="kode-surat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <p id="error-kode-surat" class="error-message hidden">Kode Surat tidak boleh kosong</p>
+            </div>
+            <!-- Input for Tujuan Surat -->
+            <div>
+                <label for="tujuan-surat" class="block text-sm font-medium text-gray-700">Tujuan Surat</label>
+                <input type="text" id="tujuan-surat" name="tujuan-surat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <p id="error-tujuan-surat" class="error-message hidden">Tujuan Surat tidak boleh kosong</p>
+            </div>
+            <!-- Input for Deskripsi -->
+            <div>
+                <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                <textarea id="deskripsi" name="deskripsi" rows="4" placeholder="Tuliskan informasi tambahan yang perlu dilampirkan, seperti nama anggota kelompok, mata kuliah, dosen pengampuh, dosen pembimbing, judul TA, lokasi, dan lainnya" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                <p id="error-deskripsi" class="error-message hidden">Deskripsi tidak boleh kosong</p>
+            </div>
+            <!-- Buttons -->
+            <div class="flex space-x-2">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit</button>
+                <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Unduh</button>
+            </div>
+        </form>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById('dropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    function selectSurat(surat) {
+        document.getElementById('nama-surat').value = surat;
+        toggleDropdown();
+    }
+
+    function validateForm() {
+        const nama = document.getElementById('nama').value.trim();
+        const nim = document.getElementById('nim').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const namaSurat = document.getElementById('nama-surat').value.trim();
+        const kodeSurat = document.getElementById('kode-surat').value.trim();
+        const tujuanSurat = document.getElementById('tujuan-surat').value.trim();
+        const tanggalDiajukan = document.getElementById('tanggal-diajukan').value.trim();
+        const deskripsi = document.getElementById('deskripsi').value.trim();
+
+        let isValid = true;
+
+        if (nama === '') {
+            document.getElementById('error-nama').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('error-nama').classList.add('hidden');
+        }
+
+        if (nim === '') {
+            document.getElementById('error-nim').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('error-nim').classList.add('hidden');
+        }
+
+        if (email === '') {
+            document.getElementById('error-email').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('error-email').classList.add('hidden');
+        }
+
+        if (namaSurat === '') {
+            document.getElementById('error-nama-surat').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('error-nama-surat').classList.add('hidden');
+        }
+
+        if (kodeSurat === '') {
+            document.getElementById('error-kode-surat').classList.remove('hidden');
+            isValid = false;
+        } else {
+        document.getElementById('error-kode-surat').classList.add('hidden');
+        }
+
+        if (tujuanSurat === '') {
+            document.getElementById('error-tujuan-surat').classList.remove('hidden');
+            isValid = false;
+        } else {
+            document.getElementById('error-tujuan-surat').classList.add('hidden');
+        }
+
+        if (tanggalDiajukan === '') {
+                document.getElementById('error-tanggal-diajukan').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-tanggal-diajukan').classList.add('hidden');
+            }
+
+            if (deskripsi === '') {
+                document.getElementById('error-deskripsi').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-deskripsi').classList.add('hidden');
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>
+
+
