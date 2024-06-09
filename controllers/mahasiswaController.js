@@ -31,7 +31,6 @@ exports.verifikasi = (req, res) => {
 
 exports.tampilkanFormulir = async (req, res) => {
   try {
-
     res.render('mahasiswa/permintaan');
   } catch (error) {
     console.error(error);
@@ -57,4 +56,3 @@ exports.kirimFormulir = async (req, res) => {
     return res.status(500).send('Terjadi Kesalahan Server');
   }
 };
-

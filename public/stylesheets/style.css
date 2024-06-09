@@ -1,8 +1,144 @@
+/* Tambahkan ini ke file style.css Anda */
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
 }
 
-a {
-  color: #00B7FF;
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar .profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar .profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar nav ul li {
+  margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar nav ul li a.active,
+.sidebar nav ul li a:hover {
+  background-color: #575757;
+}
+
+.sidebar .request-button,
+.sidebar .logout-button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sidebar .request-button {
+  background-color: #1abc9c;
+  color: #fff;
+}
+
+.sidebar .logout-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.main-content header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.main-content header h1 {
+  margin: 0;
+}
+
+.main-content header .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.main-content header .user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.main-content header .user-info .logo-unand {
+  width: 100px; /* Sesuaikan ukuran logo */
+  margin-left: 20px; /* Spasi antara logo dan teks */
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 0 10px;
+}
+
+.stat-item h3 {
+  margin: 0;
+  font-size: 2em;
+}
+
+.stat-item p {
+  margin: 5px 0 0;
+  font-size: 1.2em;
+}
+
+.stat-item.blue {
+  background-color: #3498db;
+}
+
+.stat-item.green {
+  background-color: #2ecc71;
+}
+
+.stat-item.yellow {
+  background-color: #f1c40f;
+}
+
+.stat-item.pink {
+  background-color: #e91e63;
 }

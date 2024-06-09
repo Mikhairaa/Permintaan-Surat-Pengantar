@@ -61,3 +61,4 @@ Permintaan.init({
   console.log('Permintaan model initialized');
   return Permintaan;
 };
+
