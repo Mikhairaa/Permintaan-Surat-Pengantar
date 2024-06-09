@@ -24,7 +24,7 @@ module.exports = {
         password: hashedPasswordMifta,
         role: 'mahasiswa',
         nama: 'Miftahul Khaira',
-        no_id: '221151009',
+        no_id: '2211521009',
         alamat: 'Batusangkar',
         createdAt: new Date(),
         updatedAt: new Date(),
