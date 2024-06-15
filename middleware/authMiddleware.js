@@ -11,6 +11,6 @@ exports.verifyToken = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Please Authenticate' });
+    res.status(401).json({ message: 'Silahkan Login Kembali' });
   }
 };

@@ -4,7 +4,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Surat extends Model {
     static associate(models) {
-    
+      Surat.hasMany(models.Permintaan, {
+        foreignKey: 'kode_surat'
+      });
     }
   }
 Surat.init({
@@ -23,6 +25,8 @@ Surat.init({
 {
   sequelize,
   modelName: "Surat",
+  tableName: "surat",
+  timestamps: false,
 });
   console.log('Surat model initialized');
   return Surat;

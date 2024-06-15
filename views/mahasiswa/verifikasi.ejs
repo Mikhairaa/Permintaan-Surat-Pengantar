@@ -7,47 +7,45 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </head>
-    
-    <style>
-        .blue-container {
-            background-color: #3B82F6;
-        }
-        .white-text {
-            color: #FFFFFF;
-        }
-        .active-menu {
-            background-color: #4CAF50;
-        }
-        .logo {
-            width: 40px; /* Sesuaikan ukuran logo */
-            height: 40px; /* Sesuaikan ukuran logo */
-        }
-        .profile-pic {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-        .sidebar-profile-pic {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-        }
-        .logout-button {
-            width: 100%;
-            text-align: center;
-            padding: 10px;
-            background-color: #ef4444;
-            color: white;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-        .striped-rows tr:nth-child(odd) {
-            background-color: #f9fafb;
-        }
-    </style>
 </head>
+<style>
+    .blue-container {
+        background-color: #3B82F6;
+    }
+    .white-text {
+        color: #FFFFFF;
+    }
+    .active-menu {
+        background-color: #4CAF50;
+    }
+    .logo {
+        width: 40px; /* Sesuaikan ukuran logo */
+        height: 40px; /* Sesuaikan ukuran logo */
+    }
+    .profile-pic {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+    .sidebar-profile-pic {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+    .logout-button {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background-color: #ef4444;
+        color: white;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    .striped-rows tr:nth-child(odd) {
+        background-color: #f9fafb;
+    }
+</style>
 <body class="bg-gray-100">
     <header class="bg-green-700 text-white p-3 flex justify-between items-center">
         <div class="flex items-center">
@@ -57,7 +55,7 @@
         <div>
             <a href="mahasiswa/profile" class="flex items-center">
                 <img src="profil.png" alt="Profil" class="profile-pic">
-                <span class="ml-2">Angel</span> <!-- User nama displayed here -->
+                <span class="ml-2">Miftahul Khaira</span> <!-- User nama displayed here -->
             </a>
         </div>
     </header>
@@ -106,7 +104,6 @@
                     <li class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font- semibold py-2 px-4 rounded-lg flex justify-center items-center ">
                         <a href="permintaan" class="block">+ Permintaan</a>
                     </li>
-                    
                 </ul>
             </nav>
             <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
@@ -117,37 +114,147 @@
         <h5 class="font-bold text-2xl m-5">Verifikasi</h5>
         <div class="container mx-auto">
             <div class="overflow-x-auto">
+                <!-- views/mahasiswa/verifikasi.ejs -->
                 <table class="min-w-full bg-white border border-gray-200">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">No</th>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Kode Surat</th>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama Surat</th>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Diajukan</th>
-                            <th class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">No</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Kode Surat</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama Surat</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Waktu Pengajuan</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Terakhir Diperbarui</th>
+                            <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
                         </tr>
                     </thead>
+                    
                     <tbody class="striped-rows">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">1</td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">001</td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">Surat Keterangan</td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">Departemen HRD</td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">Untuk keperluan administrasi</td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">2024-06-01</td>
-                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Batal</button>
-                                <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ">Edit</button>
-                            </td>
-                        </tr>
+                        <% dataPermintaan.forEach((permintaan, index) => { %>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= index + 1 %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.kode_surat %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.Surat.nama_surat %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.tujuan %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.deskripsi %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.createdAt %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.updatedAt %></td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                    <div class="flex justify-center space-x-4">
+                                        <form id="hapusForm_<%= permintaan.id %>" action="/mahasiswa/hapus/<%= permintaan.id %>" method="POST">
+                                            <button type="button" onclick="konfirmasiBatal('<%= permintaan.id %>')" class="w-16 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Batal</button>
+                                        </form>
+                                        <button class="edit-button w-16 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                            data-id="<%= permintaan.id %>"
+                                            data-nama-surat="<%= permintaan.Surat.nama_surat %>"
+                                            data-tujuan="<%= permintaan.tujuan %>"
+                                            data-deskripsi="<%= permintaan.deskripsi %>">Edit</button>
+                                    </div>
+                                </td> 
+                            </tr>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+
+<!-- Modal Form Edit -->
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="editModal">
+<div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+    <div class="bg-white p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Edit Data</h3>
+        <form id="editForm" action="/mahasiswa/edit/:id" method="POST" class="max-w-lg mx-auto">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="mb-4">
+                <label for="edit_nama_surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
+                <input type="text" name="nama_surat" id="edit_nama_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" required disabled>
+            </div>
+            <div class="mb-4">
+                <label for="edit_tujuan" class="block text-sm font-medium text-gray-700">Tujuan</label>
+                <input type="text" name="tujuan" id="edit_tujuan" class="mt-1 p-2 border border-gray-300 rounded w-full" required>
+            </div>
+            <div class="mb-4">
+                <label for="edit_deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                <textarea name="deskripsi" id="edit_deskripsi" class="mt-1 p-2 border border-gray-300 rounded w-full" required></textarea>
+            </div>
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">Simpan</button>
+                <button type="button" id="cancelEdit" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<!-- Modal Form Konfirmasi Pembatalan -->
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="konfirmasiModal">
+<div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+    <div class="bg-white p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Batalkan Permintaan</h3>
+        <p class="mb-4">Apakah Anda yakin ingin membatalkan permintaan surat pengantar?</p>
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <button type="button" id="confirmBatal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">Ya</button>
+            <button type="button" id="cancelBatal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Tidak</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.edit-button');
+    const editModal = document.getElementById('editModal');
+    const editForm = document.getElementById('editForm');
+    const editNamaSurat = document.getElementById('edit_nama_surat');
+    const editTujuan = document.getElementById('edit_tujuan');
+    const editDeskripsi = document.getElementById('edit_deskripsi');
+    const cancelEdit = document.getElementById('cancelEdit');
+
+    const konfirmasiModal = document.getElementById('konfirmasiModal');
+    const confirmBatal = document.getElementById('confirmBatal');
+    const cancelBatal = document.getElementById('cancelBatal');
+    let currentDeleteForm = null;
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.dataset.id;
+            const namaSurat = button.dataset.namaSurat;
+            const tujuan = button.dataset.tujuan;
+            const deskripsi = button.dataset.deskripsi;
+
+            editForm.action = `/mahasiswa/edit/${id}`;
+            editNamaSurat.value = namaSurat;
+            editTujuan.value = tujuan;
+            editDeskripsi.value = deskripsi;
+
+            editModal.classList.remove('hidden');
+        });
+    });
+
+    cancelEdit.addEventListener('click', () => {
+        editModal.classList.add('hidden');
+    });
+
+    window.konfirmasiBatal = function (id) {
+        currentDeleteForm = document.getElementById(`hapusForm_${id}`);
+        konfirmasiModal.classList.remove('hidden');
+    };
+
+    confirmBatal.addEventListener('click', () => {
+        if (currentDeleteForm) {
+            currentDeleteForm.submit();
+        }
+    });
+
+    cancelBatal.addEventListener('click', () => {
+        konfirmasiModal.classList.add('hidden');
+        currentDeleteForm = null;
+    });
+});
+</script>
 </body>
 </html>

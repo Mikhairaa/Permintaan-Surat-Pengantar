@@ -1,9 +1,22 @@
-const Permintaan = require('../models/permintaan');
-const { User }= require('../models');
+const { Permintaan, User, Surat }= require('../models');
 
-exports.dashboard = (req, res) => {
-  res.render('mahasiswa/dashboard');
+exports.dashboard = async (req, res) => {
+  try {
+    const id = req.user.id
+    // Panggil fungsi untuk melihat profil pengguna
+    const lihatProfil = await User.findByPk(id);
+    // Ambil data nama pengguna dari hasil pemanggilan fungsi
+    const userNama = lihatProfil.nama;
+    console.log("UserNama:", userNama);
+
+    // Kemudian Anda dapat merender halaman 'mahasiswaDashboard.ejs' dengan menyertakan nama pengguna
+    res.render('mahasiswa/dashboard', { userNama });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 }
+
 
 exports.lihatProfil = async (req, res) => {
   try {
@@ -22,37 +35,83 @@ exports.lihatProfil = async (req, res) => {
   } catch (error) {
     console.error("Error during login: ", error);
     res.status(500).json({ message: "Internal server error" });
-  }
-  
-}
-exports.verifikasi = (req, res) => {
-  res.render('mahasiswa/verifikasi');
+  }  
 }
 
-exports.tampilkanFormulir = async (req, res) => {
+exports.tampilkanDataVerifikasi = async (req, res) => {
   try {
-    res.render('mahasiswa/permintaan');
+      // Mengambil data permintaan dari database yang statusnya belum disetujui
+      const dataPermintaan = await Permintaan.findAll({
+          where: {
+              status: 'belum disetujui'
+          },
+          include: [
+              { model: Surat,required: true},
+              {model: User,required: true}
+          ]
+      });
+      // Jika tidak ada data yang ditemukan
+      if (!dataPermintaan || dataPermintaan.length === 0) {
+          return res.render('mahasiswa/verifikasi', { errorMessage: "Tidak ada data verifikasi yang tersedia" });
+      }
+
+      // Render halaman verifikasi dengan data yang telah diambil
+      return res.render('mahasiswa/verifikasi', { dataPermintaan });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+      // Tangani kesalahan jika terjadi
+      console.error(error);
+      return res.status(500).send('Terjadi kesalahan saat mengambil data verifikasi');
   }
 };
 
-exports.kirimFormulir = async (req, res) => {
+exports.hapusData = async (req, res) => {
   try {
-    const { deskripsi, tujuan } = req.body;
-
-   // Memasukkan data formulir ke dalam basis data menggunakan model Formulir
-    await Permintaan.create({ 
-      deskripsi: deskripsi,
-      tujuan: tujuan,
-      id_users:req.userId,
-      tanggal_pengajuan: new Date()
-    });
-
-    return res.render('mahasiswa/kirimFormulir', { successMessage: "Formulir berhasil dikirim!" });
+    const { id } = req.params;
+    await Permintaan.destroy({ where: { id } });
+    res.redirect('/mahasiswa/verifikasi'); // Perbaikan rute
   } catch (error) {
-    console.error(error);
-    return res.status(500).send('Terjadi Kesalahan Server');
+    console.error('Terjadi kesalahan saat menghapus data:', error);
+    res.status(500).send('Terjadi kesalahan saat menghapus data');
   }
 };
+
+exports.tampilkanKonfirmasiBatal = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Ambil data permintaan yang akan dibatalkan untuk ditampilkan di halaman konfirmasi
+    const dataPermintaan = await Permintaan.findByPk(id);
+    // Render halaman konfirmasi pembatalan dengan data permintaan
+    res.render('mahasiswa/konfirmasiBatal', { dataPermintaan });
+  } catch (error) {
+    console.error('Terjadi kesalahan saat menampilkan halaman konfirmasi pembatalan:', error);
+    res.status(500).send('Terjadi kesalahan saat menampilkan halaman konfirmasi pembatalan');
+  }
+};
+
+exports.tampilkanFormEdit = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const data = await Permintaan.findOne({ where: { id } });
+      res.render('mahasiswa/formEdit', { data });
+  } catch (error) {
+      console.error('Terjadi kesalahan saat menampilkan form edit:', error);
+      res.status(500).send('Terjadi kesalahan saat menampilkan form edit');
+  }
+};
+
+exports.editData = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { nama_surat, tujuan, deskripsi } = req.body;
+      await Permintaan.update({ nama_surat, tujuan, deskripsi }, { where: { id } });
+      res.redirect('/mahasiswa/verifikasi');
+  } catch (error) {
+      console.error('Terjadi kesalahan saat mengedit data:', error);
+      res.status(500).send('Terjadi kesalahan saat mengedit data');
+  }
+};
+
+
+
+
+

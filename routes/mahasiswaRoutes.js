@@ -12,9 +12,15 @@ router.get('/mahasiswa/dashboard', verifyToken, (req, res) => {
     res.render('mahasiswa/mahasiswaDashboard');
   });
   
-router.get('/mahasiswa/dashboard', authMiddleware.verifyToken,mahasiswaController.dashboard);
+//router.get('/mahasiswa/dashboard', authMiddleware.verifyToken,mahasiswaController.dashboard);
 router.get('/mahasiswa/profile', authMiddleware.verifyToken, mahasiswaController.lihatProfil);
-router.get('/mahasiswa/verifikasi', authMiddleware.verifyToken,mahasiswaController.verifikasi);
-router.get('/mahasiswa/permintaan', authMiddleware.verifyToken,mahasiswaController.tampilkanFormulir);
+router.get('/mahasiswa/verifikasi', authMiddleware.verifyToken,mahasiswaController.tampilkanDataVerifikasi);
+router.post('/mahasiswa/hapus/:id', authMiddleware.verifyToken,mahasiswaController.hapusData);
+router.get('/mahasiswa/edit/:id', authMiddleware.verifyToken, mahasiswaController.tampilkanFormEdit);
+router.post('/mahasiswa/edit/:id', authMiddleware.verifyToken, mahasiswaController.editData);
+router.get('/mahasiswa/konfirmasi-batal/:id', authMiddleware.verifyToken, mahasiswaController.tampilkanKonfirmasiBatal);
+
+
+
 
 module.exports = router;

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : 'id_user'
       }),
       Permintaan.belongsTo(models.Surat,{
-        foreignKey : 'id_surat'
+        foreignKey : 'kode_surat'
       })
     }
   }
@@ -37,7 +37,7 @@ Permintaan.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
-  id_users: {
+  id_user: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -45,17 +45,18 @@ Permintaan.init({
       key: 'id'
     }
   },
-  id_surat: {
+  kode_surat: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'surat',
-      key: 'id_surat'
+      key: 'kode_surat'
     }
   },
 }, {
   sequelize,
   modelName: 'Permintaan',
+  tableName: 'permintaan',
   timestamps: true,
 });
   console.log('Permintaan model initialized');
