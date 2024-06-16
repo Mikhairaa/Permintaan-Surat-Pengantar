@@ -22,5 +22,9 @@ exports.lihatProfil = async (req, res) => {
     console.error("Error during login: ", error);
     res.status(500).json({ message: "Internal server error" });
   }  
-}
+};
+
+exports.tampilkanDataUser = (req, res) => {
+  res.render('admin/users');
+};
 

@@ -30,7 +30,9 @@ exports.lihatProfil = async (req, res) => {
     const userNama = lihatProfil.nama;
     const userNo_Id = lihatProfil.no_id;
     const userAlamat = lihatProfil.alamat;
-    res.render('mahasiswa/profile', {userId, userRole, userEmail, userNama, userNo_Id, userAlamat})
+    const userGender = lihatProfil.gender;
+    const userRegistrasi = lihatProfil.createdAt;
+    res.render('mahasiswa/profile', {userId, userRole, userEmail, userNama, userNo_Id, userAlamat,userGender, userRegistrasi})
     
   } catch (error) {
     console.error("Error during login: ", error);
@@ -40,9 +42,10 @@ exports.lihatProfil = async (req, res) => {
 
 exports.tampilkanDataVerifikasi = async (req, res) => {
   try {
-      // Mengambil data permintaan dari database yang statusnya belum disetujui
+      const mahasiswaId = req.user.id;
       const dataPermintaan = await Permintaan.findAll({
           where: {
+              id_user : mahasiswaId,
               status: 'belum disetujui'
           },
           include: [

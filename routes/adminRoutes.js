@@ -12,5 +12,5 @@ router.get('/admin/dashboard', verifyToken, (req, res) => {
   res.render('admin/adminDashboard');
 });
 
-router.get('/admin/profile', authMiddleware.verifyToken, adminController.lihatProfil);
+router.get('/admin/users', authMiddleware.verifyToken,adminController.tampilkanDataUser);
 module.exports = router;

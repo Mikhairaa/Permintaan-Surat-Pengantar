@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       foto_profil : DataTypes.STRING,
       no_id: DataTypes.STRING,
       alamat: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      status: DataTypes.STRING,
     
     },
     {
