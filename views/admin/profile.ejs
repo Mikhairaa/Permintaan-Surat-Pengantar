@@ -92,7 +92,7 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="/admin/dashboard" class="block py-2 px-4">
+                        <a href="/admin/adminDashboard" class="block py-2 px-4">
                             <i class="fa-solid fa-house" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
                         </a>
                     </li>   
@@ -105,17 +105,17 @@
                             </svg>
                         </a>  
                         <ul id="dropdown-menu" class="hidden transition-max-height max-h-0 shadow-md rounded">
-                            <li><a href="#" class="block py-2 px-4">Semua</a></li>
-                            <li><a href="#" class="block py-2 px-4">Belum Disetujui</a></li>
-                            <li><a href="#" class="block py-2 px-4">Ditolak</a></li>
-                            <li><a href="#" class="block py-2 px-4">Dibatalkan</a></li>
-                            <li><a href="#" class="block py-2 px-4">Sedang Proses</a></li>
-                            <li><a href="#" class="block py-2 px-4">Selesai</a></li>
+                            <li><a href="/admin/riwayat/semua" class="block py-2 px-4">Semua</a></li>
+                            <li><a href="/admin/riwayat/belumDisetujui" class="block py-2 px-4">Belum Disetujui</a></li>
+                            <li><a href="/admin/riwayat/ditolak" class="block py-2 px-4">Ditolak</a></li>
+                            <li><a href="/admin/riwayat/dibatalkan" class="block py-2 px-4">Dibatalkan</a></li>
+                            <li><a href="/admin/riwayat/diproses" class="block py-2 px-4">Diproses</a></li>
+                            <li><a href="/admin/riwayat/selesai" class="block py-2 px-4">Selesai</a></li>
                         </ul>
                     </li>
                     
                         <a href="/admin/users" class="block py-2 px-4">
-                            <i class="fa-solid fa-users" style="color: #FFFFFF;margin-right: 20px;"></i>Users
+                            <i class="fa-solid fa-users" style="color: #FFFFFF;margin-right: 20px;"></i>User
                         </a>
                     </li>   
                     <li>
@@ -162,10 +162,20 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        // Di dalam <script> tag Anda
+            document.addEventListener('DOMContentLoaded', function () {
             const dropdownToggle = document.getElementById('dropdown-toggle');
             const dropdownMenu = document.getElementById('dropdown-menu');
             const dropdownIcon = document.getElementById('dropdown-icon');
+
+            // Tambahkan event listener untuk mengarahkan ke halaman "Semua" saat tautan diklik
+            const submenuSemua = document.querySelector('#dropdown-menu a[href="/admin/riwayat/semua"]');
+            submenuSemua.addEventListener('click', function(event) {
+                // Hentikan default action dari tautan
+                event.preventDefault();
+                // Arahkan ke halaman "semuaSurat.ejs"
+                window.location.href = "/admin/riwayat/semua";
+            });
 
             dropdownToggle.addEventListener('click', function () {
                 if (dropdownMenu.classList.contains('hidden')) {

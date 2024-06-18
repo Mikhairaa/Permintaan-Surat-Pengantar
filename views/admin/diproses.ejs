@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diproses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .blue-container {
+            background-color: #3B82F6;
+        }
+        .white-text {
+            color: #FFFFFF;
+        }
+        .active-menu {
+            background-color: #4CAF50;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .sidebar-profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .logout-button {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ef4444;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .transition-max-height {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        nav ul li a {
+            display: block;
+            padding: 12px 24px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+        nav ul li a:hover {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        #dropdown-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        #dropdown-menu li a:hover {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+        .striped-rows tr:nth-child(odd) {
+            background-color: #e5e5e7b9;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-3 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h1>Universitas Andalas</h1>
+        </div>
+        <a href="admin/profile" class="flex items-center">
+            <img src="profil.png" alt="Profil" class="profile-pic">
+            <span class="ml-2">Admin</span>
+        </a>
+    </header>
+    <div class="flex">
+        <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
+            <div class="w-full p-2 flex items-center justify-center">
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-bottom: 10px;">
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/admin/adminDashboard class="block py-2 px-4">
+                            <i class="fa-solid fa-house" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="relative">
+                        <a href="#" id="dropdown-toggle" class="block py-2 px-4 flex items-center cursor-pointer">
+                            <i class="fas fa-history mr-6"></i> 
+                            <span>Riwayat</span>
+                            <svg id="dropdown-icon" class="w-4 h-4 transition-transform ml-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a> 
+                        <ul id="dropdown-menu" class="hidden transition-max-height max-h-0 shadow-md rounded">
+                            <li><a href="/admin/riwayat/semua" class="block py-2 px-4">Semua</a></li>
+                            <li><a href="/admin/riwayat/belumDisetujui" class="block py-2 px-4">Belum Disetujui</a></li>
+                            <li><a href="/admin/riwayat/ditolak" class="block py-2 px-4">Ditolak</a></li>
+                            <li><a href="/admin/riwayat/dibatalkan" class="block py-2 px-4">Dibatalkan</a></li>
+                            <li><a href="/admin/riwayat/diproses" class="block py-2 px-4">Diproses</a></li>
+                            <li><a href="/admin/riwayat/selesai" class="block py-2 px-4">Selesai</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin/users" class="block py-2 px-4">
+                            <i class="fa-solid fa-users" style="color: #FFFFFF;margin-right: 20px;"></i>User
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/feedback" class="block py-2 px-5">
+                            <i class="fa-solid fa-comment" style="color: #FFFFFF;margin-right: 20px;"></i>Feedback
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/profile" class="block py-2 px-5">
+                            <i class="fa-solid fa-user" style="color: #FFFFFF;margin-right: 20px;"></i>Profil
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
+                <button type="submit" class="w-full text-center py-2">Logout</button>
+            </form>
+        </aside>
+        <main class="flex-1 p-6">
+            <h5 class="font-bold text-2xl m-5 flex-grow">Riwayat</h5>
+            <div class="container mx-auto">
+                <div class="overflow-x-auto">
+                    <h3 class="font-medium text-xl m-5">Diproses</h3>
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">NIM</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Kode Surat</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama Surat</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Diajukan</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Diperbarui</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Detail</th>
+                            </tr>
+                        </thead>
+        
+                        <tbody class="striped-rows">
+                            <% diproses.forEach((permintaan, index) => { %>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= index + 1 %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.User.nama %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.User.no_id %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.Surat.kode_surat %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.Surat.nama_surat %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.createdAt %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.updatedAt %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                        <button class="bg-green-600 hover:bg-green-700 text-white font-semibold text-xs py-2 px-4 rounded w-20" onclick="selesai('<%= permintaan.id %>')">
+                                            Selesai
+                                        </button>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs py-2 px-4 rounded" onclick="showDetailModal('<%= permintaan.User.nama %>', '<%= permintaan.User.no_id %>', '<%= permintaan.Surat.kode_surat %>', '<%= permintaan.Surat.nama_surat %>', '<%= permintaan.tujuan %>', '<%= permintaan.deskripsi %>', '<%= permintaan.createdAt %>', '<%= permintaan.keterangan %>')">
+                                            Lihat Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+        <!-- Modal Form Detail Surat Pengantar -->
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="detailModal">
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                <div class="bg-white p-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4 text-center">Detail Surat Pengantar</h3>
+                    <div class="max-w-lg mx-auto">
+                        <div class="flex flex-wrap">
+                            <div class="w-full sm:w-1/2 mb-4">
+                                <label for="detail_nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                                <input type="text" id="detail_nama" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                            <div class="w-full sm:w-1/2 mb-4">
+                                <label for="detail_nim" class="block text-sm font-medium text-gray-700">NIM</label>
+                                <input type="text" id="detail_nim" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                            <div class="w-full sm:w-1/2 mb-4">
+                                <label for="detail_kode_surat" class="block text-sm font-medium text-gray-700">Kode Surat</label>
+                                <input type="text" id="detail_kode_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                            <div class="w-full sm:w-1/2 mb-4">
+                                <label for="detail_nama_surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
+                                <input type="text" id="detail_nama_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                            <div class="w-full mb-4">
+                                <label for="detail_tujuan" class="block text-sm font-medium text-gray-700">Tujuan</label>
+                                <input type="text" id="detail_tujuan" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                            <div class="w-full mb-4">
+                                <label for="detail_deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                                <textarea id="detail_deskripsi" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled></textarea>
+                            </div>
+                            <div class="w-full sm:w-1/2 mb-4">
+                                <label for="detail_tanggal" class="block text-sm font-medium text-gray-700">Tanggal Pengajuan</label>
+                                <input type="text" id="detail_tanggal" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                            <div class="w-full mb-4">
+                                <label for="detail_keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                                <input type="text" id="detail_keterangan" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="closeDetailModal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">OK</button>
+                </div>
+            </div>
+        </div>
+ 
+    <footer class="bg-gray-800 text-white text-center p-4">
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </footer>
+    <script>
+            function showDetailModal(nama, nim, kodeSurat, namaSurat, tujuan, deskripsi, tanggalPengajuan, keterangan) {
+                document.getElementById('detail_nama').value = nama;
+                document.getElementById('detail_nim').value = nim;
+                document.getElementById('detail_kode_surat').value = kodeSurat;
+                document.getElementById('detail_nama_surat').value = namaSurat;
+                document.getElementById('detail_tujuan').value = tujuan;
+                document.getElementById('detail_deskripsi').value = deskripsi;
+                document.getElementById('detail_tanggal').value = tanggalPengajuan;
+                document.getElementById('detail_keterangan').value = keterangan;
+
+                // Tampilkan modal
+                document.getElementById('detailModal').classList.remove('hidden');
+            }
+
+            // Menutup modal
+            document.getElementById('closeDetailModal').addEventListener('click', function () {
+                document.getElementById('detailModal').classList.add('hidden');
+            });
+                // Fungsi untuk menangani permintaan selesai
+            function selesai(id) {
+                fetch(`/admin/riwayat/selesai/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); // Muat ulang halaman setelah berhasil menyelesaikan surat
+                    } else {
+                        alert('Gagal menyelesaikan surat');
+                    }
+                })
+                .catch(error => {
+                    console.error('Terjadi kesalahan:', error);
+                    alert('Terjadi kesalahan');
+                });
+            }
+         // Di dalam <script> tag Anda
+            document.addEventListener('DOMContentLoaded', function () {
+            const dropdownToggle = document.getElementById('dropdown-toggle');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            const dropdownIcon = document.getElementById('dropdown-icon');
+
+            // Tambahkan event listener untuk mengarahkan ke halaman "Semua" saat tautan diklik
+            const submenuSemua = document.querySelector('#dropdown-menu a[href="/admin/riwayat/semua"]');
+            submenuSemua.addEventListener('click', function(event) {
+                // Hentikan default action dari tautan
+                event.preventDefault();
+                // Arahkan ke halaman "semuaSurat.ejs"
+                window.location.href = "/admin/riwayat/semua";
+            });
+
+            dropdownToggle.addEventListener('click', function () {
+                if (dropdownMenu.classList.contains('hidden')) {
+                    dropdownMenu.classList.remove('hidden');
+                    dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                    dropdownIcon.classList.add('rotate-180');
+                } else {
+                    dropdownMenu.classList.add('hidden');
+                    dropdownMenu.style.maxHeight = '0';
+                    dropdownIcon.classList.remove('rotate-180');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -61,42 +61,43 @@
     <div class="flex">
         <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
             <div class="w-full p-2 flex items-center justify-center">
-                <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-bottom: 10px;">
-            </div>                                  
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
+                <div><p>Miftahul Khaira</p></div>
+            </div>                                 
             <nav>
                 <ul>
                     <li>
-                        <a href="/mahasiswa/Dashboard" class="block py-2 px-4">
+                        <a href="/mahasiswa/mahasiswaDashboard" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-solid fa-table-columns" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
                         </a>
                     </li>                    
                     <li>
-                        <a href="/mahasiswa/verifikasi" class="block py-2 px-4">
+                        <a href="/mahasiswa/verifikasi" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-regular fa-circle-check" style="color: #FFFFFF; margin-right: 20px;"></i>Verifikasi
                         </a>
-                    </li>
+                    </li>                    
                     <li>
-                        <a href="/mahasiswa/status" class="block py-2 px-4">
+                        <a href="/mahasiswa/status" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-solid fa-spinner" style="color: #FFFFFF; margin-right: 20px;"></i>Status
                         </a>
                     </li>
                     <li>
-                        <a href="/mahasiswa/riwayat" class="block py-2 px-4">
+                        <a href="/mahasiswa/riwayat" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-solid fa-clock-rotate-left" style="color: #FFFFFF; margin-right: 20px;"></i>Riwayat
                         </a>
                     </li>
                     <li>
-                        <a href="/mahasiswa/feedback" class="block py-2 px-4">
+                        <a href="/mahasiswa/feedback" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-regular fa-comments" style="color: #FFFFFF; margin-right: 20px;"></i>Feedback
                         </a>
                     </li>
                     <li>
-                        <a href="/mahasiswa/notifikasi" class="block py-2 px-4">
+                        <a href="/mahasiswa/notifikasi" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-regular fa-bell" style="color: #FFFFFF; margin-right: 20px;"></i>Notifikasi
                         </a>
                     </li>
                     <li>
-                        <a href="profile" class="block py-2 px-4">
+                        <a href="profile" class="block py-2 px-4 hover:bg-gray-600">
                             <i class="fa-regular fa-user" style="color: #FFFFFF; margin-right: 20px;"></i>Profil
                         </a>
                     </li>
@@ -111,8 +112,35 @@
             </form>
         </aside>
         <main class="flex-1 p-6">
-            <h2>Welcome, Mahasiswa!</h2>
-            <p>This is the mahasiswa dashboard.</p>
+            <h3 class="font-bold text-2xl m-2">Dashboard</h3>
+            <!-- Dashboard Analitik -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <!-- Kotak-kotak analitik -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold"><%= totalSurat %></p>
+                    <h3 class="text-lg font-semibold mt-2">Total Surat</h3>
+                </div>
+                <div class="bg-gradient-to-r from-green-500 to-green-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold"><%= suratSelesai %></p>
+                    <h3 class="text-lg font-semibold mt-2">Surat Selesai</h3>
+                </div>
+                <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold"><%= suratDalamProses %></p>
+                    <h3 class="text-lg font-semibold mt-2">Surat Dalam Proses</h3>
+                </div>
+                <div class="bg-gradient-to-r from-purple-500 to-purple-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold"><%= suratBelumDisetujui %></p>
+                    <h3 class="text-lg font-semibold mt-2">Surat Belum Disetujui</h3>
+                </div>
+                <div class="bg-gradient-to-r from-red-500 to-red-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold"><%= suratDitolak %></p>
+                    <h3 class="text-lg font-semibold mt-2">Surat Ditolak</h3>
+                </div>
+                <div class="bg-gradient-to-r from-pink-500 to-pink-400 p-6 rounded-lg shadow-xl text-white">
+                    <p class="text-3xl font-bold"><%= suratDibatalkan %></p>
+                    <h3 class="text-lg font-semibold mt-2">Surat Dibatalkan</h3>
+                </div>
+            </div>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>

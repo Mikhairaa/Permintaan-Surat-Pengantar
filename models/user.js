@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Permintaan, {
         foreignKey: 'id_user'
-      });
+      })
     }
   }
   User.init(

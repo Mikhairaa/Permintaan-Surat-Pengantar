@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<style>
+    .blue-container {
+        background-color: #3B82F6;
+    }
+    .white-text {
+        color: #FFFFFF;
+    }
+    .active-menu {
+        background-color: #4CAF50;
+    }
+    .logo {
+        width: 40px; /* Sesuaikan ukuran logo */
+        height: 40px; /* Sesuaikan ukuran logo */
+    }
+    .profile-pic {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+    .sidebar-profile-pic {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+    .logout-button {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background-color: #ef4444;
+        color: white;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    .striped-rows tr:nth-child(odd) {
+        background-color: #e5e5e7b9;
+    }
+</style>
+<body class="bg-gray-100">
+    <header class="bg-green-700 text-white p-3 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h2>Universitas Andalas</h2>
+        </div>
+        <div>
+            <a href="mahasiswa/profile" class="flex items-center">
+                <img src="profil.png" alt="Profil" class="profile-pic">
+                <span class="ml-2">Miftahul Khaira</span> <!-- User nama displayed here -->
+            </a>
+        </div>
+    </header>
+    <div class="flex">
+        <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
+            <div class="w-full p-2 flex items-center justify-center">
+                <img src="profil.png" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
+                <div><p>Miftahul Khaira</p></div>
+            </div>                                   
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/mahasiswa/mahasiswaDashboard" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-solid fa-table-columns" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="/mahasiswa/verifikasi" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-circle-check" style="color: #FFFFFF; margin-right: 20px;"></i>Verifikasi
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="/mahasiswa/status" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-solid fa-spinner" style="color: #FFFFFF; margin-right: 20px;"></i>Status
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/riwayat" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-solid fa-clock-rotate-left" style="color: #FFFFFF; margin-right: 20px;"></i>Riwayat
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/feedback" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-comments" style="color: #FFFFFF; margin-right: 20px;"></i>Feedback
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/notifikasi" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-bell" style="color: #FFFFFF; margin-right: 20px;"></i>Notifikasi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-user" style="color: #FFFFFF; margin-right: 20px;"></i>Profil
+                        </a>
+                    </li>
+                    <li class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font- semibold py-2 px-4 rounded-lg flex justify-center items-center ">
+                        <a href="permintaan" class="block">+ Permintaan</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
+                <button type="submit" class="w-full text-center py-2">Logout</button>
+            </form>
+        </aside>
+        <main class="flex-1 p-6">
+            <div class="flex justify-end mb-4">
+                <h5 class="font-bold text-2xl m-2 flex-grow">Status</h5>
+                <input type="text" id="searchInput" placeholder="Cari..." class="px-2 py-1 border border-gray-300 rounded-l-md focus:outline-none focus:ring focus:border-blue-300">
+                <button id="searchButton" class="px-4 py-1 bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-600">Cari</button>
+                <select id="filterSelect" class="ml-2 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                    <option value="terlama" <%= filter === 'terlama' ? 'selected' : '' %>>Terlama</option>
+                    <option value="terbaru" <%= filter === 'terbaru' ? 'selected' : '' %>>Terbaru</option>
+                </select>
+            </div>
+            <div class="container mx-auto">
+                <div class="overflow-x-auto">
+                    <!-- views/mahasiswa/verifikasi.ejs -->
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Kode Surat</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama Surat</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Pengajuan</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Terakhir Diperbarui</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Detail</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody class="striped-rows">
+                            <% riwayat.forEach((permintaan, index) => { %>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= index + 1 %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.kode_surat %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.Surat.nama_surat %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.tujuan %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.deskripsi %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.status %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 "><%= permintaan.keterangan %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.createdAt %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.updatedAt %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2 px-4 rounded" onclick="showDetailModal('<%= permintaan.kode_surat %>', '<%= permintaan.Surat.nama_surat %>','<%= permintaan.tujuan %>', '<%= permintaan.deskripsi %>', '<%= permintaan.status %>','<%= permintaan.createdAt %>', '<%= permintaan.updatedAt %>',  '<%= permintaan.keterangan %>')">
+                                            Lihat Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>    
+</div>
+ <!-- Modal Form Detail Surat Pengantar -->
+ <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="detailModal">
+    <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+        <div class="bg-white p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4 text-center">Detail Surat Pengantar</h3>
+            <div class="max-w-lg mx-auto">
+                <div class="flex flex-wrap">
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_kode_surat" class="block text-sm font-medium text-gray-700">Kode Surat</label>
+                        <input type="text" id="detail_kode_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_nama_surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
+                        <input type="text" id="detail_nama_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="detail_tujuan" class="block text-sm font-medium text-gray-700">Tujuan</label>
+                        <input type="text" id="detail_tujuan" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="detail_deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                        <textarea id="detail_deskripsi" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled></textarea>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_tanggal" class="block text-sm font-medium text-gray-700">Tanggal Pengajuan</label>
+                        <input type="text" id="detail_tanggal" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_perbarui" class="block text-sm font-medium text-gray-700">Tanggal Diperbarui</label>
+                        <input type="text" id="detail_perbarui" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <input type="text" id="detail_status" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="detail_keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                        <input type="text" id="detail_keterangan" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button type="button" id="closeDetailModal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">OK</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+<script>
+                function showDetailModal(kodeSurat, namaSurat, tujuan, deskripsi,status,  tanggalPengajuan, tanggalPerbarui, keterangan) {
+                document.getElementById('detail_kode_surat').value = kodeSurat;
+                document.getElementById('detail_nama_surat').value = namaSurat;
+                document.getElementById('detail_tujuan').value = tujuan;
+                document.getElementById('detail_deskripsi').value = deskripsi;
+                document.getElementById('detail_status').value = status;
+                document.getElementById('detail_tanggal').value = tanggalPengajuan;
+                document.getElementById('detail_perbarui').value = tanggalPerbarui;
+                document.getElementById('detail_keterangan').value = keterangan;
+
+                // Tampilkan modal
+                document.getElementById('detailModal').classList.remove('hidden');
+            }
+
+            // Menutup modal
+            document.getElementById('closeDetailModal').addEventListener('click', function () {
+                document.getElementById('detailModal').classList.add('hidden');
+            });
+                document.addEventListener('DOMContentLoaded', function () {
+                // Event listener untuk tombol pencarian
+                document.getElementById('searchButton').addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent form from submitting in the traditional way
+                    updateUrlWithParams();
+                });
+
+                // Event listener untuk dropdown filter
+                document.getElementById('filterSelect').addEventListener('change', function () {
+                    updateUrlWithParams();
+                });
+
+                function updateUrlWithParams() {
+                    var searchValue = document.getElementById('searchInput').value;
+                    var filterValue = document.getElementById('filterSelect').value;
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('search', searchValue);
+                    url.searchParams.set('filter', filterValue);
+                    window.location.href = url.href;
+                }
+            });
+
+</script>
+</body>
+</html>

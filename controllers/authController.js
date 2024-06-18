@@ -38,9 +38,9 @@ exports.login = async (req, res) => {
     res.cookie('token', token, { httpOnly: true });
 
     if (user.role === 'admin') {
-      return res.redirect('/admin/dashboard');
+      return res.redirect('/admin/adminDashboard');
     } else if (user.role === 'mahasiswa') {
-      return res.redirect('/mahasiswa/dashboard');
+      return res.redirect('/mahasiswa/mahasiswaDashboard');
     } else {
       return res.status(403).json({ message: 'Access denied' });
     }

@@ -1,22 +1,5 @@
+const { Op } = require('sequelize');
 const { Permintaan, User, Surat }= require('../models');
-
-exports.dashboard = async (req, res) => {
-  try {
-    const id = req.user.id
-    // Panggil fungsi untuk melihat profil pengguna
-    const lihatProfil = await User.findByPk(id);
-    // Ambil data nama pengguna dari hasil pemanggilan fungsi
-    const userNama = lihatProfil.nama;
-    console.log("UserNama:", userNama);
-
-    // Kemudian Anda dapat merender halaman 'mahasiswaDashboard.ejs' dengan menyertakan nama pengguna
-    res.render('mahasiswa/dashboard', { userNama });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-}
-
 
 exports.lihatProfil = async (req, res) => {
   try {
@@ -53,11 +36,6 @@ exports.tampilkanDataVerifikasi = async (req, res) => {
               {model: User,required: true}
           ]
       });
-      // Jika tidak ada data yang ditemukan
-      if (!dataPermintaan || dataPermintaan.length === 0) {
-          return res.render('mahasiswa/verifikasi', { errorMessage: "Tidak ada data verifikasi yang tersedia" });
-      }
-
       // Render halaman verifikasi dengan data yang telah diambil
       return res.render('mahasiswa/verifikasi', { dataPermintaan });
   } catch (error) {
@@ -69,12 +47,12 @@ exports.tampilkanDataVerifikasi = async (req, res) => {
 
 exports.hapusData = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Permintaan.destroy({ where: { id } });
-    res.redirect('/mahasiswa/verifikasi'); // Perbaikan rute
+      const { id } = req.params;
+      await Permintaan.update({ status: 'dibatalkan' }, { where: { id } });
+      res.redirect('/mahasiswa/verifikasi'); // Perbaikan rute
   } catch (error) {
-    console.error('Terjadi kesalahan saat menghapus data:', error);
-    res.status(500).send('Terjadi kesalahan saat menghapus data');
+      console.error('Terjadi kesalahan saat mengubah status data:', error);
+      res.status(500).send('Terjadi kesalahan saat mengubah status data');
   }
 };
 
@@ -91,17 +69,6 @@ exports.tampilkanKonfirmasiBatal = async (req, res) => {
   }
 };
 
-exports.tampilkanFormEdit = async (req, res) => {
-  try {
-      const { id } = req.params;
-      const data = await Permintaan.findOne({ where: { id } });
-      res.render('mahasiswa/formEdit', { data });
-  } catch (error) {
-      console.error('Terjadi kesalahan saat menampilkan form edit:', error);
-      res.status(500).send('Terjadi kesalahan saat menampilkan form edit');
-  }
-};
-
 exports.editData = async (req, res) => {
   try {
       const { id } = req.params;
@@ -114,7 +81,206 @@ exports.editData = async (req, res) => {
   }
 };
 
+exports.getDashboardData = async (req, res) => {
+  try {
+      const mahasiswaId = req.user.id; // Pastikan req.user.id ada dan valid
 
+      const totalSurat = await Permintaan.count({
+          where: { id_user: mahasiswaId }
+      });
 
+      const suratSelesai = await Permintaan.count({
+          where: {
+              id_user: mahasiswaId,
+              status: 'selesai'
+          }
+      });
 
+      const suratDalamProses = await Permintaan.count({
+          where: {
+              id_user: mahasiswaId,
+              status: 'dalam proses'
+          }
+      });
+
+      const suratBelumDisetujui = await Permintaan.count({
+          where: {
+              id_user: mahasiswaId,
+              status: 'belum disetujui'
+          }
+      });
+      const suratDitolak = await Permintaan.count({
+        where: {
+            id_user: mahasiswaId,
+            status: 'ditolak'
+        }
+      });
+      const suratDibatalkan = await Permintaan.count({
+      where: {
+          id_user: mahasiswaId,
+          status: 'dibatalkan'
+      }
+      });
+
+      res.render('mahasiswa/mahasiswaDashboard', {
+          totalSurat,
+          suratSelesai,
+          suratDalamProses,
+          suratBelumDisetujui,
+          suratDibatalkan,
+          suratDitolak
+      });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send('Terjadi kesalahan saat mengambil data dashboard');
+  }
+};
+
+exports.tampilkanFormulir = async (req, res) => {
+  try {
+    res.render('mahasiswa/permintaan');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+exports.createPermintaan = async (req, res) => {
+  try {
+      const { namaSurat, kodeSurat, tujuan, deskripsi } = req.body;
+      const userId = req.user.id;
+
+      // Validasi data
+      if (!namaSurat || !kodeSurat || !tujuan || !deskripsi) {
+          return res.status(400).json({ success: false, message: 'Semua kolom harus diisi' });
+      }
+
+      // Simpan data ke database
+      const permintaan = await Permintaan.create({
+          kode_surat: kodeSurat,
+          id_user: userId,
+          status: 'belum disetujui',
+          tujuan: tujuan,
+          deskripsi: deskripsi
+      });
+
+      res.status(201).json({ success: true, message: 'Permintaan berhasil disimpan', data: permintaan });
+  } catch (error) {
+      console.error('Error saat menyimpan permintaan:', error);
+      res.status(500).json({ success: false, message: 'Terjadi kesalahan saat menyimpan permintaan' });
+  }
+};
+
+exports.getSemuaStatus = async (req, res) => {
+  try {
+      const search = req.query.search || '';
+      const filter = req.query.filter || 'terlama';
+      let whereClause = {};
+
+      if (search) {
+          whereClause = {
+              [Op.or]: [
+                { '$Surat.kode_surat$': { [Op.like]: `%${search}%` } }, // Pencarian berdasarkan kode surat
+                { '$Surat.nama_surat$': { [Op.like]: `%${search}%` } } // Pencarian berdasarkan nama surat
+                  // Tambahkan field lain yang ingin dicari
+              ]
+          };
+      }
+
+      let orderClause = [];
+      if (filter === 'terbaru') {
+          orderClause = [['createdAt', 'DESC']];
+      } else {
+          orderClause = [['createdAt', 'ASC']];
+      }
+
+      const mahasiswaId = req.user.id;
+      const status = await Permintaan.findAll({
+          where: {
+            id_user : mahasiswaId,
+            status: ['belum disetujui','dalam proses'],
+            ...whereClause
+            },
+          include: [
+            { model: Surat, as: 'Surat' }
+          ],
+          order: orderClause
+      });
+
+      res.render('mahasiswa/status', { status, search, filter });
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+exports.getSemuaRiwayat = async (req, res) => {
+  try {
+      const search = req.query.search || '';
+      const filter = req.query.filter || 'terlama';
+      let whereClause = {};
+
+      if (search) {
+          whereClause = {
+              [Op.or]: [
+                { '$Surat.kode_surat$': { [Op.like]: `%${search}%` } }, // Pencarian berdasarkan kode surat
+                { '$Surat.nama_surat$': { [Op.like]: `%${search}%` } } // Pencarian berdasarkan nama surat
+                  // Tambahkan field lain yang ingin dicari
+              ]
+          };
+      }
+
+      let orderClause = [];
+      if (filter === 'terbaru') {
+          orderClause = [['createdAt', 'DESC']];
+      } else {
+          orderClause = [['createdAt', 'ASC']];
+      }
+
+      const mahasiswaId = req.user.id;
+      const riwayat = await Permintaan.findAll({
+          where: {
+            id_user : mahasiswaId,
+            status: ['dibatalkan','ditolak','selesai'],
+            ...whereClause
+            },
+          include: [
+            { model: Surat, as: 'Surat' }
+          ],
+          order: orderClause
+      });
+
+      res.render('mahasiswa/riwayat', { riwayat, search, filter });
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+exports.getNotifikasi = async (req, res) => {
+  try {
+      const notifikasi = await Notifikasi.findAll({
+          where: { id_user: req.user.id },
+          order: [['createdAt', 'DESC']]
+      });
+
+      res.render('mahasiswa/notifikasi', { notifikasi });
+  } catch (error) {
+      console.error('Error fetching notifications:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+exports.markAsRead = async (req, res) => {
+  try {
+      await Notifikasi.update({ status: 'dibaca' }, {
+          where: { id_user: req.user.id, status: 'belum dibaca' }
+      });
+
+      res.redirect('/mahasiswa/notifikasi');
+  } catch (error) {
+      console.error('Error marking notifications as read:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
 
