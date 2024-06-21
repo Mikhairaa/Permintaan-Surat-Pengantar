@@ -6,11 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class Permintaan extends Model {
     static associate(models) {
       Permintaan.belongsTo(models.User,{
-        foreignKey : 'id_user'
-      }),
+        foreignKey : 'id_user',
+        as: 'User'
+      });
       Permintaan.belongsTo(models.Surat,{
-        foreignKey : 'kode_surat'
-      })
+        foreignKey : 'kode_surat',
+        as: 'Surat'
+      });
     }
   }
 Permintaan.init({

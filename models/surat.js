@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Surat.hasMany(models.Permintaan, {
         foreignKey: 'kode_surat'
-      });
+      })
     }
   }
 Surat.init({
