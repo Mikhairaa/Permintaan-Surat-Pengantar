@@ -47,6 +47,25 @@
             width: 3px;
             background-color: #3182ce; /* Warna biru Tailwind */
         }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        aside {
+            position: fixed;
+            top: 64px; /* Sesuaikan dengan tinggi header */
+            bottom: 0;
+            width: 15%; /* Sesuaikan dengan lebar sidebar */
+            overflow-y: auto; /* Tambahkan scroll jika konten sidebar lebih tinggi dari viewport */
+        }
+        main {
+            margin-left: 300 rem; /* Sesuaikan dengan lebar sidebar */
+            margin-top: 64px;
+             /* Sesuaikan dengan tinggi header */
+        }
+        
     </style>
 </head>
 <body class="bg-gray-100">
