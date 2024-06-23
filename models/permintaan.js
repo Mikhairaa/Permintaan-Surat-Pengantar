@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 Permintaan.init({
-  // define columns
+
   id: {
     type : DataTypes.INTEGER,
     autoIncrement : true,

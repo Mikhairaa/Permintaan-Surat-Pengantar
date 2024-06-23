@@ -1,4 +1,4 @@
-// seeders/seedUsers.js
+
 const bcrypt = require('bcrypt');
 
 module.exports = {

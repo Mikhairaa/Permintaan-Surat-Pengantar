@@ -294,15 +294,15 @@ exports.tampilkanDataMahasiswa = async (req, res) => {
         role: 'mahasiswa'
       }
     });
-    // Jika tidak ada data yang ditemukan
+    
     if (!dataMahasiswa || dataMahasiswa.length === 0) {
       return res.render('admin/users', { errorMessage: "Tidak ada data mahasiswa yang tersedia", dataMahasiswa: [] });
     }
 
-    // Render halaman users dengan data mahasiswa yang telah diambil
+    
     return res.render('admin/users', { dataMahasiswa });
   } catch (error) {
-    // Tangani kesalahan jika terjadi
+    
     console.error(error);
     return res.status(500).send('Terjadi kesalahan saat mengambil data mahasiswa');
   }
@@ -310,7 +310,7 @@ exports.tampilkanDataMahasiswa = async (req, res) => {
 
 exports.tampilkanDiproses = async (req, res) => {
   try {
-    // Ambil semua permintaan surat dari mahasiswa
+    
     const diproses = await Permintaan.findAll({
       where: {
         status: 'dalam proses'
@@ -319,13 +319,13 @@ exports.tampilkanDiproses = async (req, res) => {
         {
           model: User,
           as:'User',
-          where: { role: 'mahasiswa' }, // Filter hanya role mahasiswa
-          attributes: ['nama', 'no_id'] // Ambil nama dan nim mahasiswa
+          where: { role: 'mahasiswa' }, 
+          attributes: ['nama', 'no_id'] 
         },
         {
           model: Surat,
           as:'Surat',
-          attributes: ['nama_surat','kode_surat'] // Ambil nama surat
+          attributes: ['nama_surat','kode_surat'] 
         }
       ],
       order: [['createdAt', 'ASC']]
@@ -342,7 +342,7 @@ exports.suratSelesai = async (req, res) => {
   try {
       const { id } = req.params;
 
-      // Cari permintaan yang akan diubah statusnya
+      
       const permintaan = await Permintaan.findOne({
           where: { id },
           include: { model: Surat, as: 'Surat' }
@@ -352,10 +352,10 @@ exports.suratSelesai = async (req, res) => {
           return res.status(404).send('Permintaan tidak ditemukan');
       }
 
-      // Update status permintaan
+      
       await Permintaan.update({ status: 'selesai' }, { where: { id } });
 
-      // Membuat notifikasi untuk mahasiswa
+      
       const deskripsi = `${permintaan.Surat.nama_surat} untuk ${permintaan.tujuan} telah selesai, silahkan ambil surat ke administrasi departemen Sistem Informasi`;
 
       await Notifikasi.create({
@@ -373,8 +373,8 @@ exports.suratSelesai = async (req, res) => {
 
 exports.getNama = async (req, res, next) => {
   try {
-      const userId = req.user.id; // Ganti dengan cara yang sesuai untuk mendapatkan ID pengguna mahasiswa
-      const user = await User.findOne({ where: { id: userId } }); // Ganti dengan cara yang sesuai untuk menemukan pengguna
+      const userId = req.user.id; 
+      const user = await User.findOne({ where: { id: userId } }); 
       const namaAdmin = user.nama;
       res.locals.namaAdmin = namaAdmin;
       next();
