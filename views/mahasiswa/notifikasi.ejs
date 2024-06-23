@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahasiswa Dashboard</title>
+    <title>Notifikasi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -54,7 +54,7 @@
         <div>
             <a href="profile" class="flex items-center">
                 <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="profile-pic">
-                <h1 class="ml-2 font-semibold"><%= namaMahasiswa %></h1> <!-- User nama displayed here -->
+                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span> <!-- User nama displayed here -->
             </a>
         </div>
     </header>
@@ -107,6 +107,7 @@
                     <li class="w-3/4 mt-6 ml-6 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4  rounded-lg flex justify-center items-center ">
                         <a href="permintaan" class="block font-semibold">+ Permintaan</a>
                     </li>
+                    
                 </ul>
             </nav>
             <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
@@ -125,40 +126,76 @@
             </form>
         </aside>
         <main class="flex-1 p-6">
-            <h3 class="font-bold text-2xl m-2">Dashboard</h3>
-            <!-- Dashboard Analitik -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                <!-- Kotak-kotak analitik -->
-                <div class="bg-gradient-to-r from-blue-500 to-blue-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= totalSurat %></p>
-                    <h3 class="text-lg font-semibold mt-2">Total Surat</h3>
+            <div class="container mx-auto p-5 max-w-screen-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-2xl">Notifikasi</h3>
+                    <button id="markAsReadButton" class="text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400 font-semibold">Sudah dibaca</button>
                 </div>
-                <div class="bg-gradient-to-r from-green-500 to-green-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratSelesai %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Selesai</h3>
-                </div>
-                <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratDalamProses %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Dalam Proses</h3>
-                </div>
-                <div class="bg-gradient-to-r from-purple-500 to-purple-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratBelumDisetujui %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Belum Disetujui</h3>
-                </div>
-                <div class="bg-gradient-to-r from-red-500 to-red-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratDitolak %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Ditolak</h3>
-                </div>
-                <div class="bg-gradient-to-r from-pink-500 to-pink-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratDibatalkan %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Dibatalkan</h3>
+                <div id="notifikasiContainer" class="grid grid-cols-1 gap-4">
+                    <% notifikasi.forEach(n => { %>
+                        <div class="notifikasi-item flex items-center bg-blue-50 border border-blue-200 shadow-sm rounded-lg p-4 dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                            <i class="fas fa-asterisk text-2xl text-black dark:text-white mr-3"></i>
+                            <div class="flex flex-col w-full">
+                                <div class="flex items-center justify-between w-full">
+                                    <div>
+                                        <p class="text-gray-800 dark:text-white font-semibold"><%= n.judul_notifikasi %></p>
+                                        <p class="text-gray-800 dark:text-white"><%= n.deskripsi_notifikasi %></p>
+                                    </div>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-400 text-right"><%= new Date(n.createdAt).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', hour12: false }) %> WIB</p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
                 </div>
             </div>
-        </main>
-    </div>
-    <footer class="bg-gray-800 text-white text-center p-2">
-        <p>&copy; 2024 Letterly. All rights reserved.</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+            </main>
+            </div>
+            <footer class="bg-gray-800 text-white text-center p-2">
+                <p>&copy; 2024 Letterly. All rights reserved.</p>
+            </footer>
+            <!-- Pop-up notification -->
+            <div id="popupMessage" class="fixed bottom-4 right-4 bg-white border border-gray-300 shadow-lg rounded-lg p-4 max-w-xs opacity-0 transform translate-y-4 transition-opacity transition-transform duration-300 hidden">
+                <div class="flex justify-between items-center">
+                    <p class="text-green-600 font-semibold">Semua notifikasi telah dibaca.</p>
+                    <button id="closePopupButton" class="text-red-600 hover:text-red-800 font-semibold">Tutup</button>
+                </div>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+            <script>
+                document.getElementById('markAsReadButton').addEventListener('click', function() {
+                    var notifikasiItems = document.querySelectorAll('.notifikasi-item');
+                    notifikasiItems.forEach(function(item) {
+                        item.classList.remove('bg-blue-50', 'border-blue-200');
+                        item.classList.add('bg-white', 'border-gray-200');
+                    });
+            
+                    fetch('/mahasiswa/notifikasi/mark-as-read', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => response.json())
+                      .then(data => {
+                        if (data.message === 'All notifications marked as read') {
+                            var popupMessage = document.getElementById('popupMessage');
+                            popupMessage.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+                            popupMessage.classList.add('opacity-100', 'translate-y-0');
+                            console.log('All notifications marked as read.');
+                        } else {
+                            console.error('Failed to mark notifications as read.');
+                        }
+                    });
+                });
+            
+                document.getElementById('closePopupButton').addEventListener('click', function() {
+                    var popupMessage = document.getElementById('popupMessage');
+                    popupMessage.classList.add('opacity-0', 'translate-y-4');
+                    setTimeout(function() {
+                        popupMessage.classList.add('hidden');
+                    }, 300); 
+                });
+            </script>
+            
 </body>
 </html>

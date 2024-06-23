@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
@@ -40,9 +39,16 @@ fs
     }
   });
 
+// Initialize associations
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
-    db[modelName].associate(db);
+    try {
+      db[modelName].associate(db);
+      console.log(`Associations initialized for model: ${modelName}`);
+    } catch (error) {
+      console.error(`Failed to initialize associations for model: ${modelName}`);
+      console.error(error);
+    }
   }
 });
 

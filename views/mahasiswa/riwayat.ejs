@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikasi</title>
+    <title>Riwayat</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -67,7 +67,7 @@
                     <p><%= namaMahasiswa %></p>
                     <p><%= noIdMahasiswa %></p>
                 </div>
-            </div>                                 
+            </div>                                   
             <nav>
                 <ul>
                     <li>
@@ -108,6 +108,7 @@
                     <li class="w-3/4 mt-6 ml-6 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4  rounded-lg flex justify-center items-center ">
                         <a href="permintaan" class="block font-semibold">+ Permintaan</a>
                     </li>
+                    
                 </ul>
             </nav>
             <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
@@ -126,7 +127,15 @@
             </form>
         </aside>
         <main class="flex-1 p-6">
-            <h3 class="font-bold text-2xl m-2">Verifikasi</h3>
+            <div class="flex justify-end mb-4">
+                <h5 class="font-bold text-2xl m-2 flex-grow">Riwayat</h5>
+                <input type="text" id="searchInput" placeholder="Cari..." class="px-2 py-1 border border-gray-300 rounded-l-md focus:outline-none focus:ring focus:border-blue-300">
+                <button id="searchButton" class="px-4 py-1 bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-600">Cari</button>
+                <select id="filterSelect" class="ml-2 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                    <option value="terlama" <%= filter === 'terlama' ? 'selected' : '' %>>Terlama</option>
+                    <option value="terbaru" <%= filter === 'terbaru' ? 'selected' : '' %>>Terbaru</option>
+                </select>
+            </div>
             <div class="container mx-auto">
                 <div class="overflow-x-auto">
                     <!-- views/mahasiswa/verifikasi.ejs -->
@@ -139,14 +148,15 @@
                                 <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
                                 <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
                                 <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Waktu Pengajuan</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Pengajuan</th>
                                 <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Terakhir Diperbarui</th>
-                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Detail</th>
                             </tr>
                         </thead>
                         
                         <tbody class="striped-rows">
-                            <% dataPermintaan.forEach((permintaan, index) => { %>
+                            <% riwayat.forEach((permintaan, index) => { %>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= index + 1 %></td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.kode_surat %></td>
@@ -154,128 +164,114 @@
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.tujuan %></td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.deskripsi %></td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.status %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 "><%= permintaan.keterangan %></td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.createdAt.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short'}) %></td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= permintaan.updatedAt.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short'}) %></td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-                                        <div class="flex justify-center space-x-4">
-                                            <form id="hapusForm_<%= permintaan.id %>" action="/mahasiswa/hapus/<%= permintaan.id %>" method="POST">
-                                                <button type="button" onclick="konfirmasiBatal('<%= permintaan.id %>')" class="w-16 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
-                                                <%= permintaan.status === 'dibatalkan' ? 'disabled' : '' %>>Batal</button>
-                                            </form>
-                                            <button class="edit-button w-16 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                                                data-id="<%= permintaan.id %>"
-                                                data-nama-surat="<%= permintaan.Surat.nama_surat %>"
-                                                data-tujuan="<%= permintaan.tujuan %>"
-                                                data-deskripsi="<%= permintaan.deskripsi %>"
-                                                <%= permintaan.status === 'dibatalkan' ? 'disabled' : '' %>>Edit</button>
-                                        </div>
-                                    </td> 
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2 px-4 rounded" onclick="showDetailModal('<%= permintaan.kode_surat %>', '<%= permintaan.Surat.nama_surat %>','<%= permintaan.tujuan %>', '<%= permintaan.deskripsi %>', '<%= permintaan.status %>','<%= permintaan.createdAt %>', '<%= permintaan.updatedAt %>',  '<%= permintaan.keterangan %>')">
+                                            Lihat Detail
+                                        </button>
+                                    </td>
                                 </tr>
                             <% }); %>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </main>
-        
+        </main>    
 </div>
-
-<!-- Modal Form Edit -->
-<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="editModal">
-<div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
-    <div class="bg-white p-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Edit Data</h3>
-        <form id="editForm" action="/mahasiswa/edit/:id" method="POST" class="max-w-lg mx-auto">
-            <input type="hidden" name="_method" value="PUT">
-            <div class="mb-4">
-                <label for="edit_nama_surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
-                <input type="text" name="nama_surat" id="edit_nama_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" required disabled>
+ <!-- Modal Form Detail Surat Pengantar -->
+ <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="detailModal">
+    <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+        <div class="bg-white p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4 text-center">Detail Surat Pengantar</h3>
+            <div class="max-w-lg mx-auto">
+                <div class="flex flex-wrap">
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_kode_surat" class="block text-sm font-medium text-gray-700">Kode Surat</label>
+                        <input type="text" id="detail_kode_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_nama_surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
+                        <input type="text" id="detail_nama_surat" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="detail_tujuan" class="block text-sm font-medium text-gray-700">Tujuan</label>
+                        <input type="text" id="detail_tujuan" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="detail_deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                        <textarea id="detail_deskripsi" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled></textarea>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_tanggal" class="block text-sm font-medium text-gray-700">Tanggal Pengajuan</label>
+                        <input type="text" id="detail_tanggal" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_perbarui" class="block text-sm font-medium text-gray-700">Tanggal Diperbarui</label>
+                        <input type="text" id="detail_perbarui" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full sm:w-1/2 mb-4">
+                        <label for="detail_status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <input type="text" id="detail_status" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="detail_keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                        <input type="text" id="detail_keterangan" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled>
+                    </div>
+                </div>
             </div>
-            <div class="mb-4">
-                <label for="edit_tujuan" class="block text-sm font-medium text-gray-700">Tujuan</label>
-                <input type="text" name="tujuan" id="edit_tujuan" class="mt-1 p-2 border border-gray-300 rounded w-full" required>
-            </div>
-            <div class="mb-4">
-                <label for="edit_deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                <textarea name="deskripsi" id="edit_deskripsi" class="mt-1 p-2 border border-gray-300 rounded w-full" required></textarea>
-            </div>
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">Simpan</button>
-                <button type="button" id="cancelEdit" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Batal</button>
-            </div>
-        </form>
-    </div>
-</div>
-</div>
-
-<!-- Modal Form Konfirmasi Pembatalan -->
-<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="konfirmasiModal">
-<div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
-    <div class="bg-white p-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Batalkan Permintaan</h3>
-        <p class="mb-4">Apakah Anda yakin ingin membatalkan permintaan surat pengantar?</p>
-        <div class="sm:flex sm:items-center sm:justify-between">
-            <button type="button" id="confirmBatal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">Ya</button>
-            <button type="button" id="cancelBatal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Tidak</button>
+        </div>
+        <div class="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button type="button" id="closeDetailModal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">OK</button>
         </div>
     </div>
-</div>
 </div>
 <footer class="bg-gray-800 text-white text-center p-2">
     <p>&copy; 2024 Letterly. All rights reserved.</p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const editButtons = document.querySelectorAll('.edit-button');
-    const editModal = document.getElementById('editModal');
-    const editForm = document.getElementById('editForm');
-    const editNamaSurat = document.getElementById('edit_nama_surat');
-    const editTujuan = document.getElementById('edit_tujuan');
-    const editDeskripsi = document.getElementById('edit_deskripsi');
-    const cancelEdit = document.getElementById('cancelEdit');
+                function showDetailModal(kodeSurat, namaSurat, tujuan, deskripsi,status,  tanggalPengajuan, tanggalPerbarui, keterangan) {
+                document.getElementById('detail_kode_surat').value = kodeSurat;
+                document.getElementById('detail_nama_surat').value = namaSurat;
+                document.getElementById('detail_tujuan').value = tujuan;
+                document.getElementById('detail_deskripsi').value = deskripsi;
+                document.getElementById('detail_status').value = status;
+                document.getElementById('detail_tanggal').value = tanggalPengajuan;
+                document.getElementById('detail_perbarui').value = tanggalPerbarui;
+                document.getElementById('detail_keterangan').value = keterangan;
 
-    const konfirmasiModal = document.getElementById('konfirmasiModal');
-    const confirmBatal = document.getElementById('confirmBatal');
-    const cancelBatal = document.getElementById('cancelBatal');
-    let currentDeleteForm = null;
+               
+                document.getElementById('detailModal').classList.remove('hidden');
+            }
 
-    editButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const id = button.dataset.id;
-            const namaSurat = button.dataset.namaSurat;
-            const tujuan = button.dataset.tujuan;
-            const deskripsi = button.dataset.deskripsi;
+            
+            document.getElementById('closeDetailModal').addEventListener('click', function () {
+                document.getElementById('detailModal').classList.add('hidden');
+            });
+                document.addEventListener('DOMContentLoaded', function () {
+                
+                document.getElementById('searchButton').addEventListener('click', function (event) {
+                    event.preventDefault(); 
+                    updateUrlWithParams();
+                });
 
-            editForm.action = `/mahasiswa/edit/${id}`;
-            editNamaSurat.value = namaSurat;
-            editTujuan.value = tujuan;
-            editDeskripsi.value = deskripsi;
+                
+                document.getElementById('filterSelect').addEventListener('change', function () {
+                    updateUrlWithParams();
+                });
 
-            editModal.classList.remove('hidden');
-        });
-    });
+                function updateUrlWithParams() {
+                    var searchValue = document.getElementById('searchInput').value;
+                    var filterValue = document.getElementById('filterSelect').value;
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('search', searchValue);
+                    url.searchParams.set('filter', filterValue);
+                    window.location.href = url.href;
+                }
+            });
 
-    cancelEdit.addEventListener('click', () => {
-        editModal.classList.add('hidden');
-    });
-
-    window.konfirmasiBatal = function (id) {
-        currentDeleteForm = document.getElementById(`hapusForm_${id}`);
-        konfirmasiModal.classList.remove('hidden');
-    };
-
-    confirmBatal.addEventListener('click', () => {
-        if (currentDeleteForm) {
-            currentDeleteForm.submit();
-        }
-    });
-
-    cancelBatal.addEventListener('click', () => {
-        konfirmasiModal.classList.add('hidden');
-        currentDeleteForm = null;
-    });
-});
 </script>
 </body>
 </html>
