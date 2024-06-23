@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permintaan Surat Pengantar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    
+    <style>
+        .blue-container {
+            background-color: #3B82F6;
+        }
+        .white-text {
+            color: #FFFFFF;
+        }
+        .active-menu {
+            background-color: #4CAF50;
+        }
+        .logo {
+            width: 40px; /* Sesuaikan ukuran logo */
+            height: 40px; /* Sesuaikan ukuran logo */
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        .sidebar-profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .logout-button {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ef4444;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .active-marker {
+            width: 3px;
+            background-color: #3182ce; /* Warna biru Tailwind */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-green-700 text-white p-3 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="/uploads/logounand.png" alt="Logo Unand" class="logo mr-2">
+            <h3 class="font-semibold text-xl">Universitas Andalas</h3>
+        </div>
+        <div>
+            <a href="profile" class="flex items-center">
+                <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="profile-pic">
+                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span> <!-- User nama displayed here -->
+            </a>
+        </div>
+    </header>
+    <div class="flex">
+        <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
+            <div class="w-full p-5 flex items-center justify-center">
+                <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
+                <div>
+                    <p><%= namaMahasiswa %></p>
+                    <p><%= noIdMahasiswa %></p>
+                </div>
+            </div>                                  
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/mahasiswa/mahasiswaDashboard" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-solid fa-table-columns" style="color: #FFFFFF;margin-right: 20px;"></i>Dashboard
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="/mahasiswa/verifikasi" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-circle-check" style="color: #FFFFFF; margin-right: 20px;"></i>Verifikasi
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="/mahasiswa/status" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-solid fa-spinner" style="color: #FFFFFF; margin-right: 20px;"></i>Status
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/riwayat" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-solid fa-clock-rotate-left" style="color: #FFFFFF; margin-right: 20px;"></i>Riwayat
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/feedback" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-comments" style="color: #FFFFFF; margin-right: 20px;"></i>Feedback
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mahasiswa/notifikasi" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-bell" style="color: #FFFFFF; margin-right: 20px;"></i>Notifikasi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile" class="block py-2 px-4 hover:bg-gray-600">
+                            <i class="fa-regular fa-user" style="color: #FFFFFF; margin-right: 20px;"></i>Profil
+                        </a>
+                    </li>
+                    <li class="w-3/4 mt-6 ml-6 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4  rounded-lg flex justify-center items-center ">
+                        <a href="permintaan" class="block font-semibold">+ Permintaan</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
+                <button type="submit" class="w-full text-left py-1 text-sm my-0 flex items-center">
+                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path d="M12.9999 2C10.2385 2 7.99991 4.23858 7.99991 7C7.99991 7.55228 8.44762 8 8.99991 8C9.55219 8 9.99991 7.55228 9.99991 7C9.99991 5.34315 11.3431 4 12.9999 4H16.9999C18.6568 4 19.9999 5.34315 19.9999 7V17C19.9999 18.6569 18.6568 20 16.9999 20H12.9999C11.3431 20 9.99991 18.6569 9.99991 17C9.99991 16.4477 9.55219 16 8.99991 16C8.44762 16 7.99991 16.4477 7.99991 17C7.99991 19.7614 10.2385 22 12.9999 22H16.9999C19.7613 22 21.9999 19.7614 21.9999 17V7C21.9999 4.23858 19.7613 2 16.9999 2H12.9999Z" fill="#ffffff"/>
+                            <path d="M13.9999 11C14.5522 11 14.9999 11.4477 14.9999 12C14.9999 12.5523 14.5522 13 13.9999 13V11Z" fill="#ffffff"/>
+                            <path d="M5.71783 11C5.80685 10.8902 5.89214 10.7837 5.97282 10.682C6.21831 10.3723 6.42615 10.1004 6.57291 9.90549C6.64636 9.80795 6.70468 9.72946 6.74495 9.67492L6.79152 9.61162L6.804 9.59454L6.80842 9.58848C6.80846 9.58842 6.80892 9.58778 5.99991 9L6.80842 9.58848C7.13304 9.14167 7.0345 8.51561 6.58769 8.19098C6.14091 7.86637 5.51558 7.9654 5.19094 8.41215L5.18812 8.41602L5.17788 8.43002L5.13612 8.48679C5.09918 8.53682 5.04456 8.61033 4.97516 8.7025C4.83623 8.88702 4.63874 9.14542 4.40567 9.43937C3.93443 10.0337 3.33759 10.7481 2.7928 11.2929L2.08569 12L2.7928 12.7071C3.33759 13.2519 3.93443 13.9663 4.40567 14.5606C4.63874 14.8546 4.83623 15.113 4.97516 15.2975C5.04456 15.3897 5.09918 15.4632 5.13612 15.5132L5.17788 15.57L5.18812 15.584L5.19045 15.5872C5.51509 16.0339 6.14091 16.1336 6.58769 15.809C7.0345 15.4844 7.13355 14.859 6.80892 14.4122L5.99991 15C6.80892 14.4122 6.80897 14.4123 6.80892 14.4122L6.804 14.4055L6.79152 14.3884L6.74495 14.3251C6.70468 14.2705 6.64636 14.1921 6.57291 14.0945C6.42615 13.8996 6.21831 13.6277 5.97282 13.318C5.89214 13.2163 5.80685 13.1098 5.71783 13H13.9999V11H5.71783Z" fill="#ffffff"/>
+                        </g>
+                    </svg>
+                    <span class="font-semibold text-base ml-3">Logout</span>
+                </button>
+            </form>
+        </aside>
+        <main class="flex-1 p-6">
+            <h3 class="font-bold text-2xl">Permintaan</h3>
+            <form id="permintaanForm" class="mt-6 space-y-4">
+                <div>
+                    <label for="nama-surat" class="block text-sm font-medium text-gray-700">Nama Surat</label>
+                    <div class="relative">
+                        <input type="text" id="nama-surat" name="namaSurat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <button type="button" class="absolute inset-y-0 right-0 px-4 text-gray-600 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="toggleDropdown()">&#x25BC;</button>
+                    </div>
+                    <div id="dropdown" class="hidden mt-2 w-full bg-white border border-gray">
+                        <ul class="py-1">
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S001 - Surat Pengantar Observasi dan Wawancara')">S001 - Surat Pengantar Observasi dan Wawancara</button></li>
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S002 - Surat Permintaan Data Penelitian')">S002 - Surat Permintaan Data Penelitian</button></li>
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S003 - Surat Rekomendasi Beasiswa')">S003 - Surat Rekomendasi Beasiswa</button></li>
+                            <li><button type="button" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectSurat('S004 - Surat Peminjaman Alat')">S004 - Surat Peminjaman Alat</button></li>
+                        </ul>
+                    </div>
+                    <p id="error-nama-surat" class="error-message hidden text-red-500 text-sm">Nama Surat tidak boleh kosong</p>
+                </div>
+                <div>
+                    <label for="kode-surat" class="block text-sm font-medium text-gray-700">Kode Surat</label>
+                    <input type="text" id="kode-surat" name="kodeSurat" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <p id="error-kode-surat" class="error-message hidden text-red-500 text-sm">Kode Surat tidak boleh kosong</p>
+                </div>
+                <div>
+                    <label for="tujuan-surat" class="block text-sm font-medium text-gray-700">Tujuan Surat</label>
+                    <input type="text" id="tujuan-surat" name="tujuan" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <p id="error-tujuan-surat" class="error-message hidden text-red-500 text-sm">Tujuan Surat tidak boleh kosong</p>
+                </div>
+                <div>
+                    <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                    <textarea id="deskripsi" name="deskripsi" rows="4" placeholder="Tuliskan informasi tambahan yang perlu dilampirkan, seperti nama anggota kelompok, mata kuliah, dosen pengampu, dosen pembimbing, judul TA, lokasi, dan lainnya" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                    <p id="error-deskripsi" class="error-message hidden text-red-500 text-sm">Deskripsi tidak boleh kosong</p>
+                </div>
+                <div>
+                    <p>* Unduh formulir sebagai bukti saat pengambilan surat</p>
+                </div>
+                <div class="flex justify-start space-x-4">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit</button>
+                    <button type="button" id="generatePDFButton" class="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" disabled>Unduh</button>
+                </div>
+            </form>
+        </main>
+    </div>
+        <footer class="bg-gray-800 text-white text-center p-2">
+            <p>&copy; 2024 Letterly. All rights reserved.</p>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+        <script>
+            function toggleDropdown() {
+                const dropdown = document.getElementById('dropdown');
+                dropdown.classList.toggle('hidden');
+            }
+        
+            function selectSurat(surat) {
+                document.getElementById('nama-surat').value = surat;
+                toggleDropdown();
+            }
+        
+            function validateForm() {
+                const namaSurat = document.getElementById('nama-surat').value.trim();
+                const kodeSurat = document.getElementById('kode-surat').value.trim();
+                const tujuanSurat = document.getElementById('tujuan-surat').value.trim();
+                const deskripsi = document.getElementById('deskripsi').value.trim();
+        
+                let isValid = true;
+        
+                if (namaSurat === '') {
+                    document.getElementById('error-nama-surat').classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('error-nama-surat').classList.add('hidden');
+                }
+        
+                if (kodeSurat === '') {
+                    document.getElementById('error-kode-surat').classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('error-kode-surat').classList.add('hidden');
+                }
+        
+                if (tujuanSurat === '') {
+                    document.getElementById('error-tujuan-surat').classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('error-tujuan-surat').classList.add('hidden');
+                }
+        
+                if (deskripsi === '') {
+                    document.getElementById('error-deskripsi').classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    document.getElementById('error-deskripsi').classList.add('hidden');
+                }
+        
+                return isValid;
+            }
+        
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('permintaanForm');
+                const generatePDFButton = document.getElementById('generatePDFButton');
+        
+                form.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+        
+                    if (validateForm()) {
+                        const formData = new FormData(form);
+        
+                        try {
+                            const response = await fetch('/mahasiswa/permintaan', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    namaSurat: formData.get('namaSurat'),
+                                    kodeSurat: formData.get('kodeSurat'),
+                                    tujuan: formData.get('tujuan'),
+                                    deskripsi: formData.get('deskripsi')
+                                })
+                            });
+        
+                            if (!response.ok) {
+                                throw new Error('Gagal menyimpan data permintaan surat.');
+                            }
+        
+                            const data = await response.json();
+                            alert('Permintaan berhasil disimpan!');
+        
+                            generatePDFButton.disabled = false;
+        
+                            generatePDFButton.onclick = function() {
+                                const url = new URL('/mahasiswa/generate-pdf', window.location.origin);
+                                url.searchParams.append('nama', '<%= user.nama %>');
+                                url.searchParams.append('nim', '<%= user.no_id %>');
+                                url.searchParams.append('email', '<%= user.email %>');
+                                url.searchParams.append('namaSurat', formData.get('namaSurat'));
+                                url.searchParams.append('kodeSurat', formData.get('kodeSurat'));
+                                url.searchParams.append('tujuan', formData.get('tujuan'));
+                                url.searchParams.append('deskripsi', formData.get('deskripsi'));
+                                window.open(url, '_blank');
+                            };
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan: Gagal menyimpan data permintaan surat.');
+                        }
+                    }
+                });
+        
+                        generatePDFButton.addEventListener('click', function() {
+                    if (!generatePDFButton.disabled) {
+                        const formData = new FormData(form);
+                        const url = new URL('/mahasiswa/generate-pdf', window.location.origin);
+                        url.searchParams.append('nama', '<%= user.nama %>');
+                        url.searchParams.append('nim', '<%= user.no_id %>');
+                        url.searchParams.append('email', '<%= user.email %>');
+                        url.searchParams.append('namaSurat', formData.get('namaSurat'));
+                        url.searchParams.append('kodeSurat', formData.get('kodeSurat'));
+                        url.searchParams.append('tujuan', formData.get('tujuan'));
+                        url.searchParams.append('deskripsi', formData.get('deskripsi'));
+                        window.open(url, '_blank');
+                    }
+                });
+            });
+        </script>            
+</body>
+</html>        
