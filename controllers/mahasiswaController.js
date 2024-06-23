@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { Permintaan, User, Surat, Notifikasi, Feedback }= require('../models');
 const upload = require('../middleware/uploadMiddleware');
 const PDFDocument = require('pdfkit');
+const path = require ('path');
 
 exports.lihatProfil = async (req, res) => {
   try {
@@ -355,8 +356,25 @@ exports.generatePDF = (req, res) => {
 
     doc.moveDown(2);
 
+    const logoPath = path.join(__dirname, 'logounand.png');
+    const pageWidth = doc.page.width;
+    const pageHeight = doc.page.height;
 
-    doc.font('Times-Roman').fontSize(16).text('FORMULIR PERMINTAAN SURAT PENGANTAR', {
+    doc.image(logoPath, pageWidth / 4, pageHeight / 4, {
+      fit: [pageWidth / 2, pageHeight / 2],
+      opacity: 0.1 // Adjust opacity as needed to make the image appear faded
+    });
+
+
+    doc.font('Times-Roman').fontSize(14).text('FORMULIR PERMINTAAN SURAT PENGANTAR', {
+      align: 'center',
+      bold: true
+    });
+    doc.font('Times-Roman').fontSize(14).text('DEPARTEMEN SISTEM INFORMASI', {
+      align: 'center',
+      bold: true
+    });
+    doc.font('Times-Roman').fontSize(14).text('FAKULTAS TEKNOLOGI INFORMASI', {
       align: 'center',
       bold: true
     });
@@ -397,14 +415,12 @@ exports.generatePDF = (req, res) => {
       doc.text(`${item.label.padEnd(20, ' ')}: ${item.value}`);
     });
 
-
     doc.moveDown(4);
     doc.fontSize(10).text('*Harap dibawa saat mengambil surat', {
       align: 'left',
       lineGap: 1.5,
       baseline: 'bottom'
     });
-
 
     doc.end();
   } catch (error) {
