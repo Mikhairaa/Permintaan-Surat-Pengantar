@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title>User</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -80,14 +80,14 @@
             <h3 class="font-semibold text-xl">Universitas Andalas</h3>
         </div>
         <a href="profile" class="flex items-center">
-            <img src="/uploads/<%= userFotoProfil %>" alt="Profil" class="profile-pic">
+            <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="profile-pic">
             <span class="ml-2 font-semibold"><%= namaAdmin %></span>
         </a>
     </header>
     <div class="flex">
         <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
             <div class="w-full p-5 flex items-center justify-center">
-                <img src="/uploads/<%= userFotoProfil %>" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
+                <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
                 <div><p><%= namaAdmin %></p></div>
             </div>
             <nav>
@@ -115,7 +115,7 @@
                         </ul>
                     </li>
                     
-                        <a href="/admin/users" class="block py-2 px-4">
+                        <a href="/admin/user" class="block py-2 px-4">
                             <i class="fa-solid fa-users" style="color: #FFFFFF;margin-right: 20px;"></i>User
                         </a>
                     </li>   
@@ -143,36 +143,44 @@
                 </button>
             </form>
         </aside>
-        <main class="p-6">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold mb-4">Profil</h2>
-                <div class="space-y-4">
-                  <div class="info-row">
-                    <span class="info-label block font-medium text-gray-700">Nama:</span>
-                    <span class="info-value"><%= userNama %></span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label block font-medium text-gray-700">Nomor Identitas:</span>
-                    <span class="info-value"><%= userNo_Id %></span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label block font-medium text-gray-700">Email:</span>
-                    <span class="info-value"><%= userEmail %></span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label block font-medium text-gray-700">Alamat:</span>
-                    <span class="info-value"><%= userAlamat %></span>
-                  </div>
-                  <form action="/admin/uploadFotoProfil" method="post" enctype="multipart/form-data" class="mt-4">
-                    <label for="foto_profil" class="block text-gray-700 font-bold mb-2">Unggah Foto Profil:</label>
-                    <input type="file" name="foto_profil" id="foto_profil" accept=".jpg, .jpeg, .png" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none">
-                    <button type="submit" class="mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-4 rounded">Unggah</button>
-                  </form>
-                    <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                        <a href = '/auth/changePass'> Ubah Password</a>
-                    </button>
+        <main class="flex-1 p-6">
+            <h5 class="font-bold text-2xl m-5">User</h5>
+            <div class="container mx-auto">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">NIM</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Jenis Kelamin</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Tanggal Registrasi</th>
+                                <th class="px-6 py-3 border-b border-gray-200 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+        
+                        <tbody class="striped-rows">
+                            <% dataMahasiswa.forEach((mahasiswa, index) => { %>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= index + 1 %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= mahasiswa.nama %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= mahasiswa.no_id %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= mahasiswa.gender %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= mahasiswa.email %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"><%= mahasiswa.createdAt.toLocaleString('id-ID',{ dateStyle: 'medium', timeStyle: 'short' }) %></td>
+                                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
+                                        <div class="<%= mahasiswa.status === 'Aktif' ? 'bg-blue-500' : 'bg-red-500' %> inline-block rounded-md px-3 py-1 text-xs font-semibold text-white">
+                                            <%= mahasiswa.status %>
+                                        </div>
+                                    </td>                                    
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
                 </div>
-        </main>
+            </div>
+        </main>        
     </div>
     <footer class="bg-gray-800 text-white text-center p-2">
         <p>&copy; 2024 Letterly. All rights reserved.</p>

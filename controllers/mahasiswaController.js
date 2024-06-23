@@ -1,9 +1,7 @@
-const Permintaan = require('../models/permintaan');
-const { User }= require('../models');
-
-exports.dashboard = (req, res) => {
-  res.render('mahasiswa/dashboard');
-}
+const { Op } = require('sequelize');
+const { Permintaan, User, Surat, Notifikasi, Feedback }= require('../models');
+const upload = require('../middleware/uploadMiddleware');
+const PDFDocument = require('pdfkit');
 
 exports.lihatProfil = async (req, res) => {
   try {
@@ -17,7 +15,10 @@ exports.lihatProfil = async (req, res) => {
     const userNama = lihatProfil.nama;
     const userNo_Id = lihatProfil.no_id;
     const userAlamat = lihatProfil.alamat;
-    res.render('mahasiswa/profile', {userId, userRole, userEmail, userNama, userNo_Id, userAlamat})
+    const userGender = lihatProfil.gender;
+    const userRegistrasi = lihatProfil.createdAt;
+    const userFotoProfil = lihatProfil.foto_profil;
+    res.render('mahasiswa/profile', {userId, userRole, userEmail, userNama, userNo_Id, userAlamat,userGender, userRegistrasi,userFotoProfil})
     
   } catch (error) {
     console.error("Error during login: ", error);
@@ -57,8 +58,57 @@ exports.tampilkanFormulir = async (req, res) => {
   try {
     res.render('mahasiswa/permintaan');
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+      console.error(error);
+      return res.status(500).send('Terjadi kesalahan saat mengambil data verifikasi');
+  }
+};
+
+exports.hapusData = async (req, res) => {
+  try {
+      const { id } = req.params;
+      await Permintaan.update({ status: 'dibatalkan' }, { where: { id } });
+      res.redirect('/mahasiswa/verifikasi'); 
+  } catch (error) {
+      console.error('Terjadi kesalahan saat mengubah status data:', error);
+      res.status(500).send('Terjadi kesalahan saat mengubah status data');
+  }
+};
+
+exports.tampilkanKonfirmasiBatal = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const dataPermintaan = await Permintaan.findByPk(id);
+    res.render('mahasiswa/konfirmasiBatal', { dataPermintaan });
+  } catch (error) {
+    console.error('Terjadi kesalahan saat menampilkan halaman konfirmasi pembatalan:', error);
+    res.status(500).send('Terjadi kesalahan saat menampilkan halaman konfirmasi pembatalan');
+  }
+};
+
+exports.editData = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { nama_surat, tujuan, deskripsi } = req.body;
+      await Permintaan.update({ nama_surat, tujuan, deskripsi }, { where: { id } });
+      res.redirect('/mahasiswa/verifikasi');
+  } catch (error) {
+      console.error('Terjadi kesalahan saat mengedit data:', error);
+      res.status(500).send('Terjadi kesalahan saat mengedit data');
+  }
+};
+
+exports.getNotifikasi = async (req, res) => {
+  try {
+    const mahasiswaId = req.user.id;  
+    const notifikasi = await Notifikasi.findAll({
+          where: { id_user: mahasiswaId},
+          order: [['createdAt', 'DESC']]
+      });
+
+      res.render('mahasiswa/notifikasi', { notifikasi });
+  } catch (error) {
+      console.error('Error fetching notifications:', error);
+      res.status(500).send('Internal Server Error');
   }
 };
 
@@ -237,3 +287,4 @@ exports.uploadFotoProfil = (req, res) => {
     }
   });
 };
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title>Notifikasi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -53,20 +53,20 @@
         </div>
         <div>
             <a href="profile" class="flex items-center">
-                <img src="/uploads/<%= userFotoProfil %>" alt="Profil" class="profile-pic ">
-                <span class="ml-2 font-semibold"><%= userNama %></span> <!-- User nama displayed here -->
+                <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="profile-pic">
+                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span> <!-- User nama displayed here -->
             </a>
         </div>
     </header>
     <div class="flex">
         <aside class="relative w-64 bg-gray-800 text-white min-h-screen p-3">
             <div class="w-full p-5 flex items-center justify-center">
-                <img src="/uploads/<%= userFotoProfil %>" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
+                <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="sidebar-profile-pic" style="width: 70px; height: 70px; margin-right: 10px;">
                 <div>
                     <p><%= namaMahasiswa %></p>
                     <p><%= noIdMahasiswa %></p>
                 </div>
-            </div>                                   
+            </div>                                 
             <nav>
                 <ul>
                     <li>
@@ -125,49 +125,77 @@
                 </button>
             </form>
         </aside>
-    <main class="p-6">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-2xl font-semibold mb-4">Profil</h3>
-            <div class="space-y-4">
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Nama:</span>
-                <span class="info-value"><%= userNama %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Nomor Identitas:</span>
-                <span class="info-value"><%= userNo_Id %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Email:</span>
-                <span class="info-value"><%= userEmail %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Alamat:</span>
-                <span class="info-value"><%= userAlamat %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Gender:</span>
-                <span class="info-value"><%= userGender %></span>
-              </div>
-              <div class="info-row">
-                <span class="info-label block font-medium text-gray-700">Tanggal Registrasi:</span>
-                <span class="info-value"><%= userRegistrasi.toLocaleString('id-ID', { dateStyle: 'medium'})  %></span>
-              </div>
-              <form action="/mahasiswa/uploadFotoProfil" method="post" enctype="multipart/form-data" class="mt-4">
-                <label for="foto_profil" class="block text-gray-700 font-bold mb-2">Unggah Foto Profil:</label>
-                <input type="file" name="foto_profil" id="foto_profil" accept=".jpg, .jpeg, .png" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none">
-                <button type="submit" class="mt-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-4 rounded">Unggah</button>
-              </form>
-                <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                    <a href = '/auth/changePass'> Ubah Password</a>
-                </button>
+        <main class="flex-1 p-6">
+            <div class="container mx-auto p-5 max-w-screen-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-2xl">Notifikasi</h3>
+                    <button id="markAsReadButton" class="text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400 font-semibold">Sudah dibaca</button>
+                </div>
+                <div id="notifikasiContainer" class="grid grid-cols-1 gap-4">
+                    <% notifikasi.forEach(n => { %>
+                        <div class="notifikasi-item flex items-center bg-blue-50 border border-blue-200 shadow-sm rounded-lg p-4 dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+                            <i class="fas fa-asterisk text-2xl text-black dark:text-white mr-3"></i>
+                            <div class="flex flex-col w-full">
+                                <div class="flex items-center justify-between w-full">
+                                    <div>
+                                        <p class="text-gray-800 dark:text-white font-semibold"><%= n.judul_notifikasi %></p>
+                                        <p class="text-gray-800 dark:text-white"><%= n.deskripsi_notifikasi %></p>
+                                    </div>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-400 text-right"><%= new Date(n.createdAt).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', hour12: false }) %> WIB</p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
             </div>
-        
-    </main>
-</div>
-<footer class="bg-gray-800 text-white text-center p-2">
-    <p>&copy; 2024 Letterly. All rights reserved.</p>
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+            </main>
+            </div>
+            <footer class="bg-gray-800 text-white text-center p-2">
+                <p>&copy; 2024 Letterly. All rights reserved.</p>
+            </footer>
+            <!-- Pop-up notification -->
+            <div id="popupMessage" class="fixed bottom-4 right-4 bg-white border border-gray-300 shadow-lg rounded-lg p-4 max-w-xs opacity-0 transform translate-y-4 transition-opacity transition-transform duration-300 hidden">
+                <div class="flex justify-between items-center">
+                    <p class="text-green-600 font-semibold">Semua notifikasi telah dibaca.</p>
+                    <button id="closePopupButton" class="text-red-600 hover:text-red-800 font-semibold">Tutup</button>
+                </div>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/@preline/js/dist/preline.min.js"></script>
+            <script>
+                document.getElementById('markAsReadButton').addEventListener('click', function() {
+                    var notifikasiItems = document.querySelectorAll('.notifikasi-item');
+                    notifikasiItems.forEach(function(item) {
+                        item.classList.remove('bg-blue-50', 'border-blue-200');
+                        item.classList.add('bg-white', 'border-gray-200');
+                    });
+            
+                    fetch('/mahasiswa/notifikasi/mark-as-read', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => response.json())
+                      .then(data => {
+                        if (data.message === 'All notifications marked as read') {
+                            var popupMessage = document.getElementById('popupMessage');
+                            popupMessage.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+                            popupMessage.classList.add('opacity-100', 'translate-y-0');
+                            console.log('All notifications marked as read.');
+                        } else {
+                            console.error('Failed to mark notifications as read.');
+                        }
+                    });
+                });
+            
+                document.getElementById('closePopupButton').addEventListener('click', function() {
+                    var popupMessage = document.getElementById('popupMessage');
+                    popupMessage.classList.add('opacity-0', 'translate-y-4');
+                    setTimeout(function() {
+                        popupMessage.classList.add('hidden');
+                    }, 300); 
+                });
+            </script>
+            
 </body>
 </html>

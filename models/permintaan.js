@@ -6,11 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class Permintaan extends Model {
     static associate(models) {
       Permintaan.belongsTo(models.User,{
-        foreignKey : 'id_user'
-      }),
+        foreignKey : 'id_user',
+        as: 'User'
+      });
       Permintaan.belongsTo(models.Surat,{
-        foreignKey : 'id_surat'
-      })
+        foreignKey : 'kode_surat',
+        as: 'Surat'
+      });
     }
   }
 Permintaan.init({
@@ -37,7 +39,7 @@ Permintaan.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
-  id_users: {
+  id_user: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -45,17 +47,18 @@ Permintaan.init({
       key: 'id'
     }
   },
-  id_surat: {
+  kode_surat: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'surat',
-      key: 'id_surat'
+      key: 'kode_surat'
     }
   },
 }, {
   sequelize,
   modelName: 'Permintaan',
+  tableName: 'permintaan',
   timestamps: true,
 });
   console.log('Permintaan model initialized');
