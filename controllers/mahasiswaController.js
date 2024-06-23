@@ -25,34 +25,74 @@ exports.lihatProfil = async (req, res) => {
   }
   
 }
-exports.verifikasi = (req, res) => {
-  res.render('mahasiswa/verifikasi');
-}
 
-exports.tampilkanFormulir = async (req, res) => {
+exports.generatePDF = (req, res) => {
   try {
-    res.render('mahasiswa/permintaan');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-};
+    const { nama, nim, email, namaSurat, kodeSurat, tujuan, deskripsi } = req.query;
+    const doc = new PDFDocument();
 
-exports.kirimFormulir = async (req, res) => {
-  try {
-    const { deskripsi, tujuan } = req.body;
+    
+    res.setHeader('Content-disposition', 'attachment; filename=formulir.pdf');
+    res.setHeader('Content-type', 'application/pdf');
 
-   // Memasukkan data formulir ke dalam basis data menggunakan model Formulir
-    await Permintaan.create({ 
-      deskripsi: deskripsi,
-      tujuan: tujuan,
-      id_users:req.userId,
-      tanggal_pengajuan: new Date()
+    doc.pipe(res);
+
+    doc.moveDown(2);
+
+   
+    doc.font('Times-Roman').fontSize(16).text('FORMULIR PERMINTAAN SURAT PENGANTAR', {
+      align: 'center',
+      bold: true
+    });
+    doc.moveDown(2);
+
+
+    doc.font('Times-Roman').fontSize(12).text('A. IDENTITAS MAHASISWA', {
+      bold: true
+    });
+    doc.moveDown();
+
+    const formData = [
+      { label: 'Nama', value: nama },
+      { label: 'NIM', value: nim },
+      { label: 'Email', value: email }
+    ];
+
+    formData.forEach(item => {
+      doc.text(`${item.label.padEnd(20, ' ')}: ${item.value}`);
     });
 
-    return res.render('mahasiswa/kirimFormulir', { successMessage: "Formulir berhasil dikirim!" });
+    doc.moveDown(2);
+
+    doc.font('Times-Roman').fontSize(12).text('B. PERMINTAAN SURAT PENGANTAR', {
+      bold: true
+    });
+    doc.moveDown();
+
+    const suratData = [
+      { label: 'Nama Surat', value: namaSurat },
+      { label: 'Kode Surat', value: kodeSurat },
+      { label: 'Tujuan Surat', value: tujuan },
+      { label: 'Deskripsi', value: deskripsi },
+      { label: 'Tanggal Pengajuan', value: new Date().toLocaleDateString() }
+    ];
+
+    suratData.forEach(item => {
+      doc.text(`${item.label.padEnd(20, ' ')}: ${item.value}`);
+    });
+
+
+    doc.moveDown(4);
+    doc.fontSize(10).text('*Harap dibawa saat mengambil surat', {
+      align: 'left',
+      lineGap: 1.5,
+      baseline: 'bottom'
+    });
+
+  
+    doc.end();
   } catch (error) {
-    console.error(error);
-    return res.status(500).send('Terjadi Kesalahan Server');
+    console.error('Error generating PDF:', error);
+    res.status(500).send('Error generating PDF');
   }
 };
