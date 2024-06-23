@@ -20,14 +20,12 @@ app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Sync Database
 sequelize.sync().then(() => {
     console.log('Database synced');
 }).catch((err) => {
     console.error('Unable to sync database:', err);
 });
 
-// Set up EJS as template engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

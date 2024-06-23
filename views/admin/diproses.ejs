@@ -290,15 +290,14 @@
                 document.getElementById('detail_tanggal').value = tanggalPengajuan;
                 document.getElementById('detail_keterangan').value = keterangan;
 
-                // Tampilkan modal
                 document.getElementById('detailModal').classList.remove('hidden');
             }
 
-            // Menutup modal
+            
             document.getElementById('closeDetailModal').addEventListener('click', function () {
                 document.getElementById('detailModal').classList.add('hidden');
             });
-                // Fungsi untuk menangani permintaan selesai
+                
             function selesai(id) {
                 fetch(`/admin/riwayat/selesai/${id}`, {
                     method: 'POST',
@@ -308,7 +307,7 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        location.reload(); // Muat ulang halaman setelah berhasil menyelesaikan surat
+                        location.reload(); 
                     } else {
                         alert('Gagal menyelesaikan surat');
                     }
@@ -318,18 +317,16 @@
                     alert('Terjadi kesalahan');
                 });
             }
-         // Di dalam <script> tag Anda
             document.addEventListener('DOMContentLoaded', function () {
             const dropdownToggle = document.getElementById('dropdown-toggle');
             const dropdownMenu = document.getElementById('dropdown-menu');
             const dropdownIcon = document.getElementById('dropdown-icon');
 
-            // Tambahkan event listener untuk mengarahkan ke halaman "Semua" saat tautan diklik
             const submenuSemua = document.querySelector('#dropdown-menu a[href="/admin/riwayat/semua"]');
             submenuSemua.addEventListener('click', function(event) {
-                // Hentikan default action dari tautan
+
                 event.preventDefault();
-                // Arahkan ke halaman "semuaSurat.ejs"
+                
                 window.location.href = "/admin/riwayat/semua";
             });
 

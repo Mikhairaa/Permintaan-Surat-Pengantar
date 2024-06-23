@@ -297,13 +297,13 @@
         </footer>
     <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                // Event listener untuk tombol pencarian
+                
                 document.getElementById('searchButton').addEventListener('click', function (event) {
-                    event.preventDefault(); // Prevent form from submitting in the traditional way
+                    event.preventDefault(); 
                     updateUrlWithParams();
                 });
 
-                // Event listener untuk dropdown filter
+                
                 document.getElementById('filterSelect').addEventListener('change', function () {
                     updateUrlWithParams();
                 });
@@ -329,26 +329,26 @@
                 document.getElementById('detail_status').value = status;
                 document.getElementById('detail_keterangan').value = keterangan;
 
-                // Tampilkan modal
+                
                 document.getElementById('detailModal').classList.remove('hidden');
             }
 
-            // Menutup modal
+            
             document.getElementById('closeDetailModal').addEventListener('click', function () {
                 document.getElementById('detailModal').classList.add('hidden');
             });
-         // Di dalam <script> tag Anda
+         
             document.addEventListener('DOMContentLoaded', function () {
             const dropdownToggle = document.getElementById('dropdown-toggle');
             const dropdownMenu = document.getElementById('dropdown-menu');
             const dropdownIcon = document.getElementById('dropdown-icon');
 
-            // Tambahkan event listener untuk mengarahkan ke halaman "Semua" saat tautan diklik
+            
             const submenuSemua = document.querySelector('#dropdown-menu a[href="/admin/riwayat/semua"]');
             submenuSemua.addEventListener('click', function(event) {
-                // Hentikan default action dari tautan
+                
                 event.preventDefault();
-                // Arahkan ke halaman "semuaSurat.ejs"
+                
                 window.location.href = "/admin/riwayat/semua";
             });
 

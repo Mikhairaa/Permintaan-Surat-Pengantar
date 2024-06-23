@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 Surat.init({
-  // define columns
+
   kode_surat: {
     type : DataTypes.STRING,
     autoIncrement : false,
