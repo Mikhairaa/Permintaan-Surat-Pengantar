@@ -15,11 +15,11 @@
             color: #FFFFFF;
         }
         .active-menu {
-            background-color: #4CAF50;
+            background-color: #374151;
         }
         .logo {
-            width: 40px; /* Sesuaikan ukuran logo */
-            height: 40px; /* Sesuaikan ukuran logo */
+            width: 40px; 
+            height: 40px; 
         }
         .profile-pic {
             width: 32px;
@@ -47,27 +47,27 @@
         }
         nav ul li a {
             display: block;
-            padding: 12px 24px; /* Sesuaikan dengan kebutuhan Anda */
+            padding: 12px 24px; 
             text-decoration: none;
-            color: #ffffff; /* Warna teks default */
+            color: #ffffff; 
         }
-        /* Efek hover pada item menu */
+        
         nav ul li a:hover {
-            background-color: #4a5568; /* Warna latar belakang saat dihover, sedikit lebih gelap dari latar belakang awal */
-            color: #e2e8f0; /* Warna teks saat dihover, lebih cerah dari warna teks default */
+            background-color: #4a5568; 
+            color: #e2e8f0;
         }
-        /* Gaya untuk menu dropdown */
+        
         #dropdown-menu {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
-        /* Efek hover pada item menu dropdown */
+      
         #dropdown-menu li a:hover {
-            background-color: #4a5568; /* Warna latar belakang saat dihover, sedikit lebih gelap dari latar belakang awal */
-            color: #e2e8f0; /* Warna teks saat dihover, lebih cerah dari warna teks default */
+            background-color: #4a5568; 
+            color: #e2e8f0; 
         }
-        /* Rotasi panah dropdown saat aktif */
+        
         .rotate-180 {
             transform: rotate(180deg);
         }
@@ -126,7 +126,7 @@
                         </a>
                     </li>  
                     <li>
-                        <a href="/admin/profile" class="block py-2 px-5">
+                        <a href="/admin/profile" class="block py-2 px-5 active-menu">
                             <i class="fa-solid fa-user" style="color: #FFFFFF;margin-right: 20px;"></i>Profil
                         </a>
             <form id="logoutForm" action="/auth/logout" method="post" class="logout-button">
