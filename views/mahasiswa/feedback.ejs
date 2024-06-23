@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahasiswa Dashboard</title>
+    <title>Feedback</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@preline/css/dist/preline.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -125,33 +125,42 @@
             </form>
         </aside>
         <main class="flex-1 p-6">
-            <h3 class="font-bold text-2xl m-2">Dashboard</h3>
-            <!-- Dashboard Analitik -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                <!-- Kotak-kotak analitik -->
-                <div class="bg-gradient-to-r from-blue-500 to-blue-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= totalSurat %></p>
-                    <h3 class="text-lg font-semibold mt-2">Total Surat</h3>
+            <div class="container mx-auto p-5 max-w-screen-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-2xl">Feedback</h3>
+                    <a href="/mahasiswa/tulis-feedback" class="flex items-center bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <i class="fas fa-pen mr-2"></i>
+                        Beri Ulasan
+                    </a>
                 </div>
-                <div class="bg-gradient-to-r from-green-500 to-green-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratSelesai %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Selesai</h3>
-                </div>
-                <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratDalamProses %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Dalam Proses</h3>
-                </div>
-                <div class="bg-gradient-to-r from-purple-500 to-purple-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratBelumDisetujui %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Belum Disetujui</h3>
-                </div>
-                <div class="bg-gradient-to-r from-red-500 to-red-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratDitolak %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Ditolak</h3>
-                </div>
-                <div class="bg-gradient-to-r from-pink-500 to-pink-400 p-6 rounded-lg shadow-xl text-white">
-                    <p class="text-3xl font-bold"><%= suratDibatalkan %></p>
-                    <h3 class="text-lg font-semibold mt-2">Surat Dibatalkan</h3>
+                <div class="container mx-auto p-5 max-w-screen-xl">
+                    <div class="grid grid-cols-1 gap-y-4">
+                        <% feedback.forEach(item => { %>
+                            <div class="bg-white border border-blue-500 rounded-lg p-4">
+                                <div class="flex items-center">
+                                    <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="w-12 h-12 rounded-full">
+                                    <div class="ml-4">
+                                        <p class="font-bold"><%= item.User.nama %></p>
+                                        <div class="flex items-center mt-1">
+                                            <% for (let i = 0; i < item.penilaian; i++) { %>
+                                                <i class="fas fa-star text-yellow-400"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <p><%= item.ulasan %></p>
+                                    <p class="text-sm text-gray-500 mt-2"><%= item.createdAt.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) %></p>
+                                </div>
+                                <% if (item.respon) { %>
+                                    <div class="mt-4 p-4 bg-gray-100 border border-green-500 rounded-lg">
+                                        <p class="font-semibold">Admin:</p>
+                                        <p><%= item.respon %></p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        <% }) %>
+                    </div>
                 </div>
             </div>
         </main>
