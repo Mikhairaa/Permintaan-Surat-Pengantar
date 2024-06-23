@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { Permintaan, User, Surat, Notifikasi, Feedback }= require('../models');
 const upload = require('../middleware/uploadMiddleware');
 const PDFDocument = require('pdfkit');
+const path = require ('path');
 
 exports.lihatProfil = async (req, res) => {
   try {
@@ -23,9 +24,8 @@ exports.lihatProfil = async (req, res) => {
   } catch (error) {
     console.error("Error during login: ", error);
     res.status(500).json({ message: "Internal server error" });
-  }
-  
-}
+  }  
+};
 
 exports.getDashboardData = async (req, res) => {
   try {
@@ -288,3 +288,143 @@ exports.uploadFotoProfil = (req, res) => {
   });
 };
 
+exports.tampilkanDataVerifikasi = async (req, res) => {
+  try {
+      const mahasiswaId = req.user.id;
+      const dataPermintaan = await Permintaan.findAll({
+          where: {
+              id_user : mahasiswaId,
+              status: 'belum disetujui'
+          },
+          include: [
+              { model: Surat, as:'Surat',required: true},
+              {model: User,as:'User',required: true}
+          ]
+      });
+      // Render halaman verifikasi dengan data yang telah diambil
+      return res.render('mahasiswa/verifikasi', { dataPermintaan });
+  } catch (error) {
+      // Tangani kesalahan jika terjadi
+      console.error(error);
+      return res.status(500).send('Terjadi kesalahan saat mengambil data verifikasi');
+  }
+};
+
+exports.markAsRead = async (req, res) => {
+  try {
+      await Notifikasi.update({ status_notifikasi: 'dibaca' }, {
+          where: { id_user: req.user.id, status_notifikasi: 'belum dibaca' }
+      });
+
+      // Menggunakan res.json sebagai respons agar sesuai dengan fetch request di sisi klien
+      res.json({ message: 'All notifications marked as read' });
+  } catch (error) {
+      console.error('Error marking notifications as read:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+exports.getNamaMahasiswa = async (req, res, next) => {
+  try {
+      const userId = req.user.id; // Ganti dengan cara yang sesuai untuk mendapatkan ID pengguna mahasiswa
+      const user = await User.findOne({ where: { id: userId } }); // Ganti dengan cara yang sesuai untuk menemukan pengguna
+      const namaMahasiswa = user.nama;
+      const noIdMahasiswa = user.no_id; // Ganti 'nama' dengan nama kolom yang sesuai di tabel users
+      
+      // Menyimpan nama pengguna ke dalam objek locals
+      res.locals.namaMahasiswa = namaMahasiswa;
+      res.locals.noIdMahasiswa = noIdMahasiswa;
+      console.log('Nama mahasiswa:', namaMahasiswa);
+      console.log('Nomor ID mahasiswa:', noIdMahasiswa);
+      next();
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Terjadi kesalahan saat memuat data mahasiswa');
+  }
+};
+
+exports.generatePDF = (req, res) => {
+  try {
+    const { nama, nim, email, namaSurat, kodeSurat, tujuan, deskripsi } = req.query;
+    const doc = new PDFDocument();
+
+   
+    res.setHeader('Content-disposition', 'attachment; filename=formulir.pdf');
+    res.setHeader('Content-type', 'application/pdf');
+
+    doc.pipe(res);
+
+    doc.moveDown(2);
+
+    const logoPath = path.join(__dirname, 'logounand.png');
+    const pageWidth = doc.page.width;
+    const pageHeight = doc.page.height;
+
+    doc.image(logoPath, pageWidth / 4, pageHeight / 4, {
+      fit: [pageWidth / 2, pageHeight / 2],
+      opacity: 0.1 // Adjust opacity as needed to make the image appear faded
+    });
+
+
+    doc.font('Times-Roman').fontSize(14).text('FORMULIR PERMINTAAN SURAT PENGANTAR', {
+      align: 'center',
+      bold: true
+    });
+    doc.font('Times-Roman').fontSize(14).text('DEPARTEMEN SISTEM INFORMASI', {
+      align: 'center',
+      bold: true
+    });
+    doc.font('Times-Roman').fontSize(14).text('FAKULTAS TEKNOLOGI INFORMASI', {
+      align: 'center',
+      bold: true
+    });
+    doc.moveDown(2);
+
+   
+    doc.font('Times-Roman').fontSize(12).text('A. IDENTITAS MAHASISWA', {
+      bold: true
+    });
+    doc.moveDown();
+
+    const formData = [
+      { label: 'Nama', value: nama },
+      { label: 'NIM', value: nim },
+      { label: 'Email', value: email }
+    ];
+
+    formData.forEach(item => {
+      doc.text(`${item.label.padEnd(20, ' ')}: ${item.value}`);
+    });
+
+    doc.moveDown(2);
+
+    doc.font('Times-Roman').fontSize(12).text('B. PERMINTAAN SURAT PENGANTAR', {
+      bold: true
+    });
+    doc.moveDown();
+
+    const suratData = [
+      { label: 'Nama Surat', value: namaSurat },
+      { label: 'Kode Surat', value: kodeSurat },
+      { label: 'Tujuan Surat', value: tujuan },
+      { label: 'Deskripsi', value: deskripsi },
+      { label: 'Tanggal Pengajuan', value: new Date().toLocaleDateString() }
+    ];
+
+    suratData.forEach(item => {
+      doc.text(`${item.label.padEnd(20, ' ')}: ${item.value}`);
+    });
+
+    doc.moveDown(4);
+    doc.fontSize(10).text('*Harap dibawa saat mengambil surat', {
+      align: 'left',
+      lineGap: 1.5,
+      baseline: 'bottom'
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+};
