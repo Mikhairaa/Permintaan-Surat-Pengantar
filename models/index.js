@@ -39,7 +39,7 @@ fs
     }
   });
 
-// Initialize associations
+
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     try {

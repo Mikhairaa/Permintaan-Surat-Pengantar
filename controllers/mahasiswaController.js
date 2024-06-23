@@ -29,7 +29,7 @@ exports.lihatProfil = async (req, res) => {
 
 exports.getDashboardData = async (req, res) => {
   try {
-      const mahasiswaId = req.user.id; // Pastikan req.user.id ada dan valid
+      const mahasiswaId = req.user.id; 
 
       const totalSurat = await Permintaan.count({ where: { id_user: mahasiswaId } });
         const suratSelesai = await Permintaan.count({ where: { id_user: mahasiswaId, status: 'selesai' } });
@@ -301,10 +301,10 @@ exports.tampilkanDataVerifikasi = async (req, res) => {
               {model: User,as:'User',required: true}
           ]
       });
-      // Render halaman verifikasi dengan data yang telah diambil
+      
       return res.render('mahasiswa/verifikasi', { dataPermintaan });
   } catch (error) {
-      // Tangani kesalahan jika terjadi
+      
       console.error(error);
       return res.status(500).send('Terjadi kesalahan saat mengambil data verifikasi');
   }
@@ -316,7 +316,7 @@ exports.markAsRead = async (req, res) => {
           where: { id_user: req.user.id, status_notifikasi: 'belum dibaca' }
       });
 
-      // Menggunakan res.json sebagai respons agar sesuai dengan fetch request di sisi klien
+      
       res.json({ message: 'All notifications marked as read' });
   } catch (error) {
       console.error('Error marking notifications as read:', error);
@@ -326,12 +326,11 @@ exports.markAsRead = async (req, res) => {
 
 exports.getNamaMahasiswa = async (req, res, next) => {
   try {
-      const userId = req.user.id; // Ganti dengan cara yang sesuai untuk mendapatkan ID pengguna mahasiswa
-      const user = await User.findOne({ where: { id: userId } }); // Ganti dengan cara yang sesuai untuk menemukan pengguna
+      const userId = req.user.id; 
+      const user = await User.findOne({ where: { id: userId } });
       const namaMahasiswa = user.nama;
-      const noIdMahasiswa = user.no_id; // Ganti 'nama' dengan nama kolom yang sesuai di tabel users
+      const noIdMahasiswa = user.no_id; 
       
-      // Menyimpan nama pengguna ke dalam objek locals
       res.locals.namaMahasiswa = namaMahasiswa;
       res.locals.noIdMahasiswa = noIdMahasiswa;
       console.log('Nama mahasiswa:', namaMahasiswa);
@@ -362,7 +361,7 @@ exports.generatePDF = (req, res) => {
 
     doc.image(logoPath, pageWidth / 4, pageHeight / 4, {
       fit: [pageWidth / 2, pageHeight / 2],
-      opacity: 0.1 // Adjust opacity as needed to make the image appear faded
+      opacity: 0.1
     });
 
 

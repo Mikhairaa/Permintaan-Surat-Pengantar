@@ -19,8 +19,8 @@
         background-color: #374151;
     }
     .logo {
-        width: 40px; /* Sesuaikan ukuran logo */
-        height: 40px; /* Sesuaikan ukuran logo */
+        width: 40px;
+        height: 40px; 
     }
     .profile-pic {
         width: 32px;
@@ -56,7 +56,7 @@
         <div>
             <a href="profile" class="flex items-center">
                 <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="profile-pic">
-                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span> <!-- User nama displayed here -->
+                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span>
             </a>
         </div>
     </header>
@@ -139,7 +139,7 @@
             </div>
             <div class="container mx-auto">
                 <div class="overflow-x-auto">
-                    <!-- views/mahasiswa/verifikasi.ejs -->
+        
                     <table class="min-w-full bg-white border border-gray-200">
                         <thead class="bg-gray-100">
                             <tr>
@@ -181,7 +181,7 @@
             </div>
         </main>    
 </div>
- <!-- Modal Form Detail Surat Pengantar -->
+
  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden" id="detailModal">
     <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
         <div class="bg-white p-6">
@@ -243,22 +243,22 @@
                 document.getElementById('detail_perbarui').value = tanggalPerbarui;
                 document.getElementById('detail_keterangan').value = keterangan;
 
-                // Tampilkan modal
+              
                 document.getElementById('detailModal').classList.remove('hidden');
             }
 
-            // Menutup modal
+          
             document.getElementById('closeDetailModal').addEventListener('click', function () {
                 document.getElementById('detailModal').classList.add('hidden');
             });
                 document.addEventListener('DOMContentLoaded', function () {
-                // Event listener untuk tombol pencarian
+              
                 document.getElementById('searchButton').addEventListener('click', function (event) {
-                    event.preventDefault(); // Prevent form from submitting in the traditional way
+                    event.preventDefault(); 
                     updateUrlWithParams();
                 });
 
-                // Event listener untuk dropdown filter
+            
                 document.getElementById('filterSelect').addEventListener('change', function () {
                     updateUrlWithParams();
                 });

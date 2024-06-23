@@ -20,8 +20,8 @@
             background-color: #4CAF50;
         }
         .logo {
-            width: 40px; /* Sesuaikan ukuran logo */
-            height: 40px; /* Sesuaikan ukuran logo */
+            width: 40px; 
+            height: 40px; 
         }
         .profile-pic {
             width: 32px;
@@ -45,7 +45,7 @@
         }
         .active-marker {
             width: 3px;
-            background-color: #3182ce; /* Warna biru Tailwind */
+            background-color: #3182ce;
         }
         header {
             position: fixed;
@@ -55,15 +55,15 @@
         }
         aside {
             position: fixed;
-            top: 64px; /* Sesuaikan dengan tinggi header */
+            top: 64px; 
             bottom: 0;
-            width: 15%; /* Sesuaikan dengan lebar sidebar */
-            overflow-y: auto; /* Tambahkan scroll jika konten sidebar lebih tinggi dari viewport */
+            width: 15%;
+            overflow-y: auto; 
         }
         main {
-            margin-left: 300 rem; /* Sesuaikan dengan lebar sidebar */
+            margin-left: 300 rem; 
             margin-top: 64px;
-             /* Sesuaikan dengan tinggi header */
+             
         }
         
     </style>
@@ -77,7 +77,7 @@
         <div>
             <a href="profile" class="flex items-center">
                 <img src="/uploads/<%= user.foto_profil %>" alt="Profil" class="profile-pic">
-                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span> <!-- User nama displayed here -->
+                <span class="ml-2 font-semibold"><%= namaMahasiswa %></span> 
             </a>
         </div>
     </header>
